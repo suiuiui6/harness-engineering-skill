@@ -78,7 +78,7 @@ git clone https://github.com/your-username/harness-engineering.git \
 
 ## 示例项目
 
-完整的实践案例：[graghRAG-agent](https://github.com/your-username/graghRAG-agent)
+完整的实践案例：`graghRAG-agent`（本地项目，相关评测数据已收录在本仓库 `evals/skill-evaluation/`）
 
 - ✅ 多模态知识图谱 RAG 系统
 - ✅ 完整的 Layer 0-6 规范文档

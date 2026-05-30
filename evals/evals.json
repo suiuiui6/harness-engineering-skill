@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "我要从零搭建一个多模态知识管理平台，核心功能是：用户可以上传 PDF/Word/PPT 文档，系统自动解析文档内容、抽取实体和关系、构建知识图谱，并提供基于图谱的自然语言问答。目前我还没有选定任何具体的组件或服务，请帮我规划整个项目搭建流程。",
-      "expected_output": "Claude应按照驾驭工程8层流程引导：先从Layer 0能力边界摸底开始，建议评估候选组件的源码能力；然后Layer 1-2各组件MVP实测并生成规范文档；Layer 3桥接管道；不建议直接跳到写代码。响应中应体现\"先探索、再验证、后规范、最后施工\"的顺序逻辑。",
+      "expected_output": "Claude应按照驾驭工程7层流程引导：先从Layer 0能力边界摸底开始，建议评估候选组件的源码能力；然后Layer 1各组件MVP实测并生成规范文档；Layer 2集成拓扑与桥接管道；不建议直接跳到写代码。响应中应体现\"先探索、再验证、后规范、最后施工\"的顺序逻辑。",
       "files": [],
       "expectations": [
         "响应中明确建议从能力边界摸底（Layer 0）开始，而非直接选型或写代码",
@@ -17,7 +17,7 @@
     {
       "id": 2,
       "prompt": "我已经有两个现成的服务：MinerU文档解析服务和LangExtract实体抽取服务，MinerU能把PDF转成Markdown加图片，LangExtract能从文本中抽取结构化实体。现在我需要把它们整合成一个RAG问答系统。这个项目应该怎么组织目录结构？先做什么后做什么？需要哪些规范文档？",
-      "expected_output": "Claude应识别出已有组件处于Layer 1-2完成状态，引导从Layer 3（桥接管道）开始，建立BridgePipeline规范文档。然后补全Layer 5产品/架构蓝图（PRD + Backend API Spec + Frontend Design Spec），Layer 6确立项目规范，最后Layer 7施工。不应建议重新做Layer 0-2的MVP测试。",
+      "expected_output": "Claude应识别出已有组件处于Layer 1完成状态，引导从Layer 2（集成拓扑与桥接管道）开始，建立BridgePipeline规范文档。然后补全Layer 4产品/架构蓝图（PRD + Backend API Spec + Frontend Design Spec），Layer 5确立项目规范，最后Layer 6施工。不应建议重新做Layer 0-1的MVP测试。",
       "files": [],
       "expectations": [
         "响应中识别出已有组件已完成MVP验证，不需要重新测试",

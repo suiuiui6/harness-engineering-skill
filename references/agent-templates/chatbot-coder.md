@@ -22,15 +22,17 @@ max_turns: 20
 
 # 项目技术栈
 
-- **前端**: React 18 + TypeScript + Vite + Tailwind CSS + Zustand + React Router
-- **后端**: FastAPI + Pydantic v2 + LangGraph + LangChain + NetworkX
-- **样式规范**: 暗色主题 `#0b1120`，强调色 `#3b82f6`，圆角按钮，Inter 字体
-- **API 规范**: RESTful，`/api/v1/` 前缀
+> **使用前请替换为你的实际技术栈。** 以下为示例（基于 Python + Node 项目）：
+
+- **前端**: React 18 + TypeScript + Vite + Tailwind CSS（示例，按需替换）
+- **后端**: FastAPI + Pydantic v2（示例，按需替换）
+- **样式规范**: 按项目设计系统填写
+- **API 规范**: RESTful，`/api/v1/` 前缀（示例）
 
 # 代码风格
 
 - 组件使用函数式组件 + Hooks
-- 状态管理使用 Zustand stores
+- 状态管理遵循项目既有方案（如 Zustand/Redux/Context 等）
 - API 调用使用 fetch，统一错误处理
 - 文件命名: PascalCase（组件），camelCase（工具函数）
 - 所有用户可见文字使用中文

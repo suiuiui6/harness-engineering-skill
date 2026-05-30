@@ -69,12 +69,10 @@ LangExtract 能力边界：
 ### 操作步骤（每个组件重复执行）
 
 1. 创建独立目录（如 `<component>-mvp/`）
-2. 初始化独立隔离环境（按技术栈选择，见 [Layer 5 技术栈映射表](#layer-5-项目开发规范确立)）：
+2. 初始化独立隔离环境（默认仅 Python/Node，见 [Layer 5 技术栈映射表](#layer-5-项目开发规范确立)）：
    - Python：`uv venv .venv --python 3.12`
    - Node.js：`pnpm init` + `.nvmrc`
-   - Go：`go mod init <component>`
-   - Java：`mvn archetype:generate` 或 Gradle init
-   - Rust：`cargo new <component>`
+   - 若引入 Go/Java/Rust：先完成该语言 Layer 0/1 实测并补充分行规范，再进入 Layer 6 施工
 3. 安装最小依赖（只安装 MVP 必需的）
 4. 配置 `.env`（API Key/Token + 关键参数）
 5. 创建 `.env.example` 模板（可提交到 git）
@@ -290,17 +288,14 @@ User 提示：
 |------|---------|---------|---------|-------------|
 | Python | `uv venv .venv` | `uv lock` → `uv.lock` | `uv audit` / `pip-audit` | `tests/` |
 | Node.js | `pnpm` + `.nvmrc` | `pnpm-lock.yaml` | `pnpm audit` | `__tests__/` 或 `*.test.ts` |
-| Go | `go mod` + 项目级 module | `go.sum` | `govulncheck` | `*_test.go` 同包 |
-| Java | Maven/Gradle wrapper（多模块） | `pom.xml` 锁版本 / `gradle.lockfile` | OWASP Dependency-Check | `src/test/java/` |
-| Rust | Cargo workspace | `Cargo.lock` | `cargo audit` | `tests/` 或 `#[cfg(test)]` |
 
-> 项目混用多语言时（如前端 Node + 后端 Python），每个语言子项目独立遵守对应行的规范。
+> 当前默认范围为 Python + Node.js。若后续引入 Go/Java/Rust，先完成该语言 Layer 0/1 实测并补充分行规范后再进入施工。
 
 ### 五子系统自检（来自 walkinglabs/awesome-harness-engineering）
 
 L5 规范完整性的横向检查框架。如果五项中任一答"否"，说明对应 Layer 有遗漏，回去补齐：
 
-| 子系统 | yujia-engineering 对应物 | 自检问题 |
+| 子系统 | harness-engineering 对应物 | 自检问题 |
 |--------|------------------------|---------|
 | instructions | 7 条铁律 + PRD/API Spec/Frontend Spec/CLAUDE.md | Agent 能从规范文档找到行为约束吗？ |
 | tools | Layer 1 组件能力边界 Memory + 集成拓扑规范 | 每个工具的输入输出/限制/失败模式有实测记录吗？ |
@@ -386,7 +381,7 @@ L5 规范完整性的横向检查框架。如果五项中任一答"否"，说明
 
 #### 6f. 生产就绪检查（上线前必须完成）
 
-1. **依赖安全**：按 Layer 5 技术栈映射表运行漏洞扫描（`uv audit` / `pnpm audit` / `govulncheck` / OWASP DC / `cargo audit`），无 Critical/High 级漏洞
+1. **依赖安全**：按 Layer 5 技术栈映射表运行漏洞扫描（Python: `uv audit` / `pip-audit`；Node: `pnpm audit`），无 Critical/High 级漏洞
 2. **敏感信息**：日志中无 API Key / Token / 密码
 3. **错误处理**：所有外部 API 调用有超时和错误处理
 4. **环境变量**：`.env.example` 包含所有必需键名（值为占位符）

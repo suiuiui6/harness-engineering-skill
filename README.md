@@ -31,7 +31,7 @@ Harness Engineering（驾驭工程）是一套专为 AI 辅助软件开发设计
 
 ```bash
 # 克隆到 Claude Code 的 skills 目录
-git clone https://github.com/your-username/harness-engineering.git \
+git clone https://github.com/suiuiui6/harness-engineering-skill.git \
   ~/.claude/skills/harness-engineering
 ```
 
@@ -95,7 +95,7 @@ git clone https://github.com/your-username/harness-engineering.git \
 
 *排除评测设计问题后的实际通过率
 
-详细评测数据：[graghRAG-agent/docs/skill-evaluation](https://github.com/your-username/graghRAG-agent/tree/master/docs/skill-evaluation)
+详细评测数据见本仓库 `evals/skill-evaluation/`
 
 ## 目录结构
 
@@ -179,11 +179,9 @@ MIT License
 
 ## 相关资源
 
-- [示例项目：graghRAG-agent](https://github.com/your-username/graghRAG-agent)
-- [OpenHarness 五子系统框架](https://github.com/walkinglabs/awesome-harness-engineering)
-- [Martin Fowler: Humans on the Loop](https://martinfowler.com/articles/humans-on-loop.html)
+- [harness-engineering-skill 仓库](https://github.com/suiuiui6/harness-engineering-skill) — 本 skill 的源码与评测数据
+- [示例项目：graghRAG-agent](https://github.com/suiuiui6/graghRAG-agent) — 基于本方法论构建的多模态 RAG 系统
 
 ## 联系方式
 
-- GitHub Issues: https://github.com/your-username/harness-engineering/issues
-- 示例项目 Issues: https://github.com/your-username/graghRAG-agent/issues
+- GitHub Issues: https://github.com/suiuiui6/harness-engineering-skill/issues

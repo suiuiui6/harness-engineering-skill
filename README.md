@@ -4,7 +4,7 @@
 
 ## 什么是 Harness Engineering？
 
-Harness Engineering（驾驭工程）是一套专为 AI 辅助软件开发设计的方法论，通过 7 个递进 Layer 管理项目复杂度，确保从零到生产的每个阶段都有明确的质量标准。
+Harness Engineering（harness-engineering）是一套专为 AI 辅助软件开发设计的方法论，通过 7 个递进 Layer 管理项目复杂度，确保从零到生产的每个阶段都有明确的质量标准。
 
 ### 核心理念
 
@@ -22,7 +22,7 @@ Harness Engineering（驾驭工程）是一套专为 AI 辅助软件开发设计
 | **Layer 2** | 集成拓扑 | 组件间数据流与依赖关系 | 调整系统架构 |
 | **Layer 3** | 技术架构 | 核心算法与设计决策 | 选型关键技术栈 |
 | **Layer 4** | 三份蓝图 | PRD / Backend API / Frontend Design | 新增主功能模块 |
-| **Layer 5** | 7 条铁律 + 四 Agent | 项目宪章 `CLAUDE.md` | 项目启动时 |
+| **Layer 5** | 7 条铁律 + 四 Agent | 项目宪章 `CLAUDE.md` + Product Contract（版本声明/边界定义/变更记录/验收标准） | 项目启动时 |
 | **Layer 6** | 生产就绪检查 | 测试/文档/安全/性能/可观测性/运行时隔离 | 上线前 |
 
 ## 快速开始
@@ -95,7 +95,9 @@ git clone https://github.com/suiuiui6/harness-engineering-skill.git \
 
 *排除评测设计问题后的实际通过率
 
-详细评测数据见本仓库 `evals/skill-evaluation/`
+详细评测数据见本仓库 `evals/skill-evaluation/`。
+
+评测与可实践性为方法论硬约束：Layer 5 的 Product Contract 需包含可验证验收标准，Layer 6 上线前检查需提供测试/评测证据链接。
 
 ## 目录结构
 
@@ -110,7 +112,7 @@ harness-engineering/
 │       ├── chatbot-coder.md
 │       ├── chatbot-reviewer.md
 │       └── chatbot-debugger.md
-└── evals/                      # 评测脚本（可选）
+└── evals/                      # 评测脚本与结果（必备）
 ```
 
 ## 何时使用

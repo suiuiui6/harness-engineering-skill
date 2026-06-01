@@ -23,7 +23,7 @@
     {
       "text": "响应中强调代码应严格遵循已有的规范文档（Layer 5的蓝图）",
       "passed": true,
-      "evidence": "Section 7.1 is titled '规范文档是唯一真相源' and states: '驾驭工程的核心理念：**代码必须符合规范文档**' and 'reviewer 审查时，必须对照三份蓝图文档（PRD + Backend API Spec + Frontend Design Spec）逐项比对'. Section 7.3 mandates that every coder prompt includes spec document paths. Section 二 explicitly aligns agent configurations to spec-defined colors, APIs, and document locations."
+      "evidence": "Section 7.1 is titled '规范文档是唯一真相源' and states: 'harness-engineering的核心理念：**代码必须符合规范文档**' and 'reviewer 审查时，必须对照三份蓝图文档（PRD + Backend API Spec + Frontend Design Spec）逐项比对'. Section 7.3 mandates that every coder prompt includes spec document paths. Section 二 explicitly aligns agent configurations to spec-defined colors, APIs, and document locations."
     }
   ],
   "summary": {

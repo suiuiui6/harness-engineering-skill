@@ -7,6 +7,6 @@
     "响应中正确评估了MinerU与LangExtract之间的桥接状态：若桥接尚未完成则建议先建立BridgePipeline（Layer 3），若桥接已完成则确认状态并引导进入产品蓝图阶段（Layer 5）",
     "响应中建议在写产品代码之前生成PRD和后端API规范（Layer 5）",
     "响应中建议确立项目目录结构和开发规范（Layer 6）：frontend/、backend/、.env管理、uv虚拟环境",
-    "响应中提及三个Agent（planner/coder/reviewer）的协作流程"
+    "响应中明确给出开发协作三Agent流程（planner → coder → reviewer）并说明各自职责边界（planner只规划、coder实现、reviewer审查）"
   ]
 }

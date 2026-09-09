@@ -1,0 +1,16 @@
+name: Feature request
+description: Propose a focused methodology improvement
+title: "[Feature] "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Proposed acceptance evidence
+    validations:
+      required: true

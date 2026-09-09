@@ -1,7 +1,26 @@
-# Harness Engineering — AI 辅助软件工程方法论
+# Harness Engineering — Evidence-first engineering for AI-assisted development
 
 [![Integration](https://github.com/suiuiui6/harness-engineering-skill/actions/workflows/integration.yml/badge.svg)](https://github.com/suiuiui6/harness-engineering-skill/actions/workflows/integration.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+Harness Engineering is a platform-neutral seven-layer framework for turning AI
+coding work into observable, reviewable, and reversible delivery. It separates
+the reusable engineering method (`superpower`) from host packaging (`skill`) and
+host integration (`adapter`).
+
+> 中文：Harness Engineering 通过七层渐进式验证帮助 AI 辅助开发建立清晰的能力边界、
+> 集成拓扑、架构、蓝图、治理规则和生产就绪证据。
+
+## Quick Start
+
+```bash
+git clone https://github.com/suiuiui6/harness-engineering-skill.git
+cd harness-engineering-skill
+python -B tools/check_integrations.py
+```
+
+The integration check validates repository relationships; it is not proof of
+live Agent behavior or production readiness.
 
 一套平台无关的 superpower 规范（capability spec）与 7 层渐进式工程框架，帮助 AI 辅助开发从能力边界摸底到生产就绪的全流程质量管理。
 
@@ -187,6 +206,11 @@ Layer 1 必须对每个外部组件做 MVP 测试，验证可行性后再集成�
 ## 许可证
 
 MIT License
+
+## Contributing, security, and license
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md),
+[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [LICENSE](LICENSE).
 
 ## 相关资源
 

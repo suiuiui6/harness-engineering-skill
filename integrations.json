@@ -7,7 +7,7 @@
       "name": "goal",
       "repository": "https://github.com/suiuiui6/goal-skill",
       "ref": "main",
-      "tested_commit": "8ffb4b083d436d960caa516e03e9522cd3526b9c"
+      "tested_commit": "6e8cbac178562b8cfa5d62f8df6b3d54f0c67354"
     }
   ],
   "integration_consumers": [

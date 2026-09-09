@@ -196,7 +196,8 @@ MIT License
 - [示例项目：graghRAG-agent](https://github.com/suiuiui6/graghRAG-agent) — 基于本方法论构建的多模态 RAG 系统
 
 三者不冲突：Goal 负责入口，Harness 负责分层执行，Fullstack 负责兼容组合与证据验证。
-机器可读关系见 [`integrations.json`](integrations.json)。
+机器可读关系见 [`integrations.json`](integrations.json)。其中 `tested_commit` 记录
+已知兼容证据；当前 HEAD 的精确双源锁定由 Fullstack 集成仓库唯一负责。
 
 ## 联系方式
 

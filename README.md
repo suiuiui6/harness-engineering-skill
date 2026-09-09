@@ -1,5 +1,8 @@
 # Harness Engineering — AI 辅助软件工程方法论
 
+[![Integration](https://github.com/suiuiui6/harness-engineering-skill/actions/workflows/integration.yml/badge.svg)](https://github.com/suiuiui6/harness-engineering-skill/actions/workflows/integration.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 一套平台无关的 superpower 规范（capability spec）与 7 层渐进式工程框架，帮助 AI 辅助开发从能力边界摸底到生产就绪的全流程质量管理。
 
 ## 什么是 Harness Engineering？
@@ -188,7 +191,12 @@ MIT License
 ## 相关资源
 
 - [harness-engineering-skill 仓库](https://github.com/suiuiui6/harness-engineering-skill) — 本 skill 的源码与评测数据
+- [goal-skill](https://github.com/suiuiui6/goal-skill) — 负责项目接收、分类、确认门禁与 Harness 交接
+- [goal-harness-web-fullstack](https://github.com/suiuiui6/goal-harness-web-fullstack) — 固定 Goal/Harness 版本并执行 Guard、交付契约和全栈集成验证
 - [示例项目：graghRAG-agent](https://github.com/suiuiui6/graghRAG-agent) — 基于本方法论构建的多模态 RAG 系统
+
+三者不冲突：Goal 负责入口，Harness 负责分层执行，Fullstack 负责兼容组合与证据验证。
+机器可读关系见 [`integrations.json`](integrations.json)。
 
 ## 联系方式
 

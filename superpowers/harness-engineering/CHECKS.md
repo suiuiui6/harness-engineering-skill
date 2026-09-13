@@ -2,80 +2,100 @@
 
 This file defines mandatory checks for gate decisions, rollback discipline, and completion closure.
 
+## 0. Workbench Baseline
+
+Before touching a numbered layer, verify:
+
+- isolated runtime or bounded workspace exists for the affected scope
+- evidence locations for specs, logs, tests, and reviews are known
+- execution record destination is prepared
+- secret template exists and real secret files are excluded
+- commands are replayable by another operator
+
+Any missing item means the baseline is not passed.
+
 ## 1. Per-Layer Evidence Contract
 
 For every touched layer, record all fields:
 
 - Layer ID (`0..6`)
-- Status (`pass` or `fail`)
-- Evidence pointer(s) (spec/test/log/review artifact locations)
-- Decision (`advance` or `rollback`)
-- If rollback: target layer + rationale
+- inputs used
+- actions performed
+- outputs produced
+- status (`pass` or `fail`)
+- evidence pointer or pointers
+- decision (`advance` or `rollback`)
+- if rollback: target layer and rationale
 
-Any missing field = check failure.
+Any missing field means the check fails.
 
 ## 2. Layer Gate Checklist
 
 ## Layer 0 Gate
 
-- Capability statements are explicit and evidence-backed.
-- Non-capability list is explicit.
-- Boundary conclusions are persisted.
+- capability statements are explicit and evidence-backed
+- non-capability list is explicit
+- boundary conclusions are persisted
 
 ## Layer 1 Gate
 
-- Each component runs in isolated runtime.
-- Secret template exists and secret files are ignored.
-- Minimal MVP path executed successfully per component.
-- Execution artifacts are preserved.
-- Component spec is derived from measured output.
+- each component runs in isolated runtime
+- secret template exists and secret files are ignored
+- minimal MVP path executes successfully per component
+- execution artifacts are preserved
+- component spec is derived from measured output
 
 ## Layer 2 Gate
 
-- Integration topology references all upstream specs.
-- Every stage has explicit input/output schema.
-- Stage-by-stage verification completed.
-- Cache/replay mode exists for downstream debugging.
+- integration topology references all upstream specs
+- every stage has explicit input or output schema
+- stage-by-stage verification is complete
+- cache or replay mode exists for downstream debugging
 
 ## Layer 3 Gate
 
-- Optional external tooling connectivity checks pass (if used).
-- Technical architecture doc exists with rationale.
-- No unvalidated component is included.
+- optional external tooling connectivity checks pass if used
+- technical architecture doc exists with rationale
+- no unvalidated component is included
 
 ## Layer 4 Gate
 
-- PRD is complete first.
-- Backend API spec is complete second.
-- Frontend system spec is complete third.
-- Cross-document consistency is verified.
-- Priorities and implementation route are explicit.
+- PRD is complete first
+- backend API spec is complete second
+- frontend system spec is complete third
+- cross-document consistency is verified
+- priorities and implementation route are explicit
 
 ## Layer 5 Gate
 
-- Engineering rules are complete and discoverable.
-- Runtime isolation and dependency lock rules are explicit.
-- Secret handling and logging hygiene rules are explicit.
-- Integration tests on real dependencies are required.
-- Collaboration roles and review/debug loops are explicit.
+- engineering rules are complete and discoverable
+- runtime isolation and dependency lock rules are explicit
+- secret handling and logging hygiene rules are explicit
+- integration tests on real dependencies are required
+- collaboration roles and review or debug loops are explicit
+- Product Contract includes version declaration
+- Product Contract includes boundary definition
+- Product Contract includes change log
+- Product Contract includes acceptance criteria
 
 ## Layer 6 Gate
 
-- Frontend and backend run independently and integrated.
-- Backend endpoint integration tests pass.
-- End-to-end integration workflow is functional.
-- Runtime bug root-cause/fix loop is closed.
-- Static review issue list is closed.
-- Production-readiness checklist passes.
+- frontend and backend run independently and integrated
+- backend endpoint integration tests pass
+- end-to-end integration workflow is functional
+- runtime bug root-cause or fix loop is closed
+- static review issue list is closed
+- production-readiness checklist passes
+- runtime facts that diverge from docs trigger write-back or rollback
 
-## 3. Setup-Mode Guards
+## 3. Bootstrap-Mode Guards
 
 Mandatory in bootstrap mode:
 
-- No layer skipping.
-- No forward movement before gate pass.
-- No architecture/blueprint work using unvalidated upstream assumptions.
-- New findings are written back to affected specs before closure.
+- no layer skipping
+- no forward movement before gate pass
+- no architecture or blueprint work using unvalidated upstream assumptions
+- new findings are written back to affected specs before closure
 
 Guard violations force rollback to the first invalid layer.
 
@@ -83,22 +103,22 @@ Guard violations force rollback to the first invalid layer.
 
 Mandatory in maintenance mode:
 
-- Entry classification is explicit.
-- Minimal start layer is selected and justified.
-- Rollback uses smallest necessary scope.
-- Only impacted layers are reopened.
-- Touched scope ends with code-spec consistency.
+- entry classification is explicit
+- minimal start layer is selected and justified
+- rollback uses the smallest necessary scope
+- only impacted layers are reopened
+- touched scope ends with code-spec consistency
 
-If change expands scope and breaks upstream assumptions, reclassify and reopen earlier layer(s).
+If change expands scope and breaks upstream assumptions, reclassify and reopen earlier layers.
 
 ## 5. Rollback Decision Check
 
 On any `fail`, verify:
 
-- First invalid assumption is identified.
-- Rollback target is minimal valid layer.
-- Repair evidence exists at rollback target.
-- Forward re-verification is completed for affected downstream layers.
+- first invalid assumption is identified
+- rollback target is the minimal valid layer
+- repair evidence exists at the rollback target
+- forward re-verification is completed for affected downstream layers
 
 If any item is missing, rollback handling is incomplete.
 
@@ -106,12 +126,12 @@ If any item is missing, rollback handling is incomplete.
 
 Required before completion of delivery scope:
 
-- Dependency vulnerability scan has no blocking severity.
-- Logs contain no secrets.
-- External calls define timeout and failure behavior.
-- Required environment keys are listed in secret template.
-- Documentation matches current behavior.
-- Runtime isolation controls are defined.
+- dependency vulnerability scan has no blocking severity
+- logs contain no secrets
+- external calls define timeout and failure behavior
+- required environment keys are listed in the secret template
+- documentation matches current behavior
+- runtime isolation controls are defined
 
 Any blocking failure here prevents completion.
 
@@ -119,21 +139,22 @@ Any blocking failure here prevents completion.
 
 At scope closure, verify:
 
-- No unresolved doc-to-code drift remains in touched scope.
-- No unresolved doc-to-doc drift remains in touched scope.
-- Re-entry/exit state is explicit.
+- no unresolved doc-to-code drift remains in touched scope
+- no unresolved doc-to-doc drift remains in touched scope
+- `scope_result` is explicit
+- `operation_state` is explicit
 
-If drift remains, scope stays open.
+If drift remains, the scope stays open.
 
 ## 8. Completion Conditions
 
 A scope is complete only when all are true:
 
-- Every touched layer has a complete evidence record.
-- All required gates for touched layers are `pass`.
-- All rollback loops (if any) are closed with re-validation evidence.
-- Readiness baseline passes for delivery scopes.
-- Final operation state is explicit (`bootstrap_exited` or `maintenance_continues`).
+- every touched layer has a complete evidence record
+- all required gates for touched layers are `pass`
+- all rollback loops are closed with re-validation evidence
+- readiness baseline passes for delivery scopes
+- final closure declares both `scope_result` and `operation_state`
 
 Otherwise status is `incomplete`.
 
@@ -141,10 +162,20 @@ Otherwise status is `incomplete`.
 
 Quick fail-fast checks:
 
-- Capability assumptions without evidence
-- Integration attempted before per-component MVP pass
-- Blueprint stage skipped before implementation
-- Unresolved docs-code drift at closure
-- Readiness/review bypass before release
+- capability assumptions without evidence
+- integration attempted before per-component MVP pass
+- runtime facts contradict docs and nothing is updated
+- shared environment contamination is ignored
+- blueprint stage is skipped before implementation
+- unresolved docs-code drift remains at closure
+- readiness or review is bypassed before release
 
 Any hit requires immediate correction before completion.
+
+## 10. Conditional Decision-Quality Gate
+
+The risk check determines whether a first-principles or adversarial trigger is active. When inactive, the evidence record must emit `Protocol: skipped` and the exact mechanical/exact-plan reason. When active, the fixed decision-quality evidence block is mandatory, including the `Decision quality:` wrapper, Trigger, Protocol, Constraints, Assumptions, Falsifier, Falsifiers / probes, Decision, Result, and Residual risk. The first-principles `Falsifier` condition is serialized first in `Falsifiers / probes`, followed by executable probes, results, and gaps.
+
+An unresolved or unrun high-severity threat forces `stay`, a minimal upstream `rollback`, or `blocked`; it cannot be silently passed. Accepted medium- or low-risk items must be recorded. A complete approved GSD receipt may satisfy the same review once without duplication; incomplete, missing, disabled, invalid, version-mismatched, or blocked GSD falls back to the original Harness path. The only GSD operations allowed are `plan-phase`, `execute-phase`, and `verify-work`; `gsd-review` and autonomous execution are not allowed.
+
+Harness remains authoritative for this gate, risk evidence, rollback, `scope_result`, and `operation_state`. This gate does not change goal-enforcement ownership or imply mechanical blocking on Windows; host wording remains `audit-only-windows` when hooks are unavailable.

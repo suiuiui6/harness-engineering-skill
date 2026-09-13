@@ -1,213 +1,298 @@
-# Harness Engineering Execution Phases
+# Harness Engineering Delivery Arc and Operational Phases
 
-This file defines the execution choreography for `harness-engineering` using the canonical 7-layer method. It is procedural and intentionally strict.
+This file defines both the human-readable delivery arc and the strict operational choreography for `harness-engineering`.
+
+The delivery arc explains why the method moves the way it does.
+The operational phases define how execution, rollback, and closure happen.
+
+## Part A: Delivery Arc
+
+## Phase 1: Foundation and Capability Proof
+
+Goal:
+
+- make the workbench observable and prove what components can actually do
+
+Canonical moves:
+
+1. Establish the workbench baseline so the scope is observable, manageable, and reusable.
+2. Define boundaries before making architecture claims.
+3. Use source or API evidence as the final capability proof.
+
+Primary mapping:
+
+- precondition, Layer 0, Layer 1
+
+## Phase 2: Engineering Loop
+
+Goal:
+
+- turn validated behavior into contracts, bridge stages, and blueprints
+
+Canonical moves:
+
+4. Solidify understanding into specs and contracts.
+5. Close single-component MVP loops before bridge or system integration.
+6. Let runtime facts override stale documents; write back or roll back immediately.
+
+Primary mapping:
+
+- Layer 1, Layer 2, Layer 3, Layer 4
+
+## Phase 3: Productization
+
+Goal:
+
+- isolate environments, integrate by plan, and land the product safely
+
+Canonical moves:
+
+7. Isolate environments, dependencies, and secret handling.
+8. Integrate by explicit contracts and planned stage order.
+9. Land the product through API -> prototype -> frontend -> integrated release as applicable.
+
+Primary mapping:
+
+- Layer 5, Layer 6
+
+## Part B: Operational Phases
 
 ## Phase 0: Intake and Entry Classification
 
 Objective:
 
-- Classify incoming work as Bootstrap Mode or Maintenance Mode.
+- classify incoming work as Bootstrap Mode or Maintenance Mode
 
 Required input:
 
-- User request
-- Current project/system state
-- Existing stability status
+- user request
+- current project or system state
+- existing stability status
 
 Procedure:
 
-1. Determine whether request is system-building or localized maintenance.
-2. If ambiguous, default to maintenance unless evidence shows upstream/systemic impact.
-3. Choose minimal start layer using re-entry rules.
-4. Record classification + start layer in work notes.
+1. Determine whether the request is system-building or localized maintenance.
+2. If ambiguous, default to maintenance unless evidence shows upstream or systemic impact.
+3. Choose the minimal start layer using re-entry rules.
+4. Record classification and start layer in work notes.
 
 Output:
 
 - `mode`: `bootstrap` or `maintenance`
 - `start_layer`: one of `0..6`
-- Classification rationale
+- classification rationale
 
 Gate:
 
-- Must have explicit mode + start layer before entering layered work.
+- explicit mode and start layer must exist before entering layered work
 
 Failure handling:
 
-- If missing clarity, pause and clarify request scope before proceeding.
+- if scope clarity is missing, pause and clarify before proceeding
+
+## Phase 0.5: Workbench Baseline
+
+Objective:
+
+- confirm the affected scope is observable, bounded, replayable, and safe to execute
+
+Procedure:
+
+1. Confirm isolated runtime or bounded workspace for the affected scope.
+2. Confirm evidence locations for specs, logs, tests, and review artifacts.
+3. Confirm execution record destination.
+4. Confirm secrets stay templated and ignored.
+5. Confirm commands can be replayed by another operator.
+
+Output:
+
+- bounded execution surface
+- evidence index for this scope
+
+Gate:
+
+- no numbered layer begins until the workbench baseline passes
+
+Failure handling:
+
+- repair the baseline before entering Layer 0 or any maintenance re-entry layer
 
 ## Phase 1: Layered Execution Core
 
 Objective:
 
-- Execute required layers with gate discipline and artifact traceability.
+- execute required layers with gate discipline and artifact traceability
 
 Rules:
 
-- Bootstrap: execute Layer 0 -> 6 in order.
-- Maintenance: execute only from chosen minimal start layer forward as needed.
-- Never advance without current-layer pass evidence.
+- bootstrap: execute Layer 0 -> 6 in order
+- maintenance: execute only from the chosen minimal start layer forward as needed
+- never advance without current-layer pass evidence
 
-Per-layer operational loop:
+Per-layer loop:
 
-1. Collect layer inputs.
-2. Run layer actions.
-3. Produce layer outputs/artifacts.
-4. Evaluate pass criteria.
-5. Record `pass` or `fail` + evidence links.
+1. collect layer inputs
+2. run layer actions
+3. produce outputs or artifacts
+4. evaluate pass criteria
+5. record `pass` or `fail`, evidence pointers, and the decision to `advance` or `rollback`
 
 Output:
 
-- Layer decision log for all touched layers
-- Artifact set for each touched layer
+- layer decision log for all touched layers
+- artifact set for each touched layer
 
 Gate:
 
-- All touched layers must have explicit outcome and evidence pointer.
+- all touched layers must have explicit outcome, evidence pointer, and decision
 
 Failure handling:
 
-- On fail, enter Phase 2 rollback logic immediately.
+- on fail, enter rollback logic immediately
 
 ## Phase 2: Gate Evaluation and Minimal Rollback
 
 Objective:
 
-- Resolve failures by repairing at the smallest layer scope that restores correctness.
+- resolve failures by repairing at the smallest layer scope that restores correctness
 
 Procedure:
 
-1. Identify first invalid assumption in dependency chain.
-2. Decide rollback target layer (minimal scope).
-3. Repair artifacts/implementation at target layer.
-4. Re-run gate checks from target layer forward for affected scope.
+1. identify the first invalid assumption in the dependency chain
+2. decide the rollback target layer with minimal scope
+3. repair artifacts or implementation at the target layer
+4. re-run gate checks from the target layer forward for the affected scope
 
 Decision rules:
 
-- Do not reset to Layer 0 by default.
-- Prefer in-layer repair if assumption remains valid.
-- Escalate rollback only when evidence invalidates upstream assumptions.
+- do not reset to Layer 0 by default
+- prefer in-layer repair if the assumption remains valid
+- escalate rollback only when evidence invalidates an upstream assumption
 
 Output:
 
-- Rollback decision record
-- Re-validation evidence for affected layers
+- rollback decision record
+- re-validation evidence for affected layers
 
 Gate:
 
-- Failed layer cannot be marked complete without re-validation evidence.
+- a failed layer cannot be marked complete without re-validation evidence
 
 Failure handling:
 
-- If repeated failure persists, reclassify as broader scope and move start layer upstream.
+- if repeated failure persists, reclassify as broader scope and move the start layer upstream
 
 ## Phase 3: Blueprint and Governance Synchronization
 
 Objective:
 
-- Keep specification, architecture, and engineering rules synchronized with implementation intent.
+- keep specifications, architecture, engineering rules, and Product Contract synchronized with implementation intent
 
 When required:
 
-- Always for bootstrap
-- For maintenance whenever change touches contracts, topology, architecture, or governance
+- always for bootstrap
+- for maintenance whenever the change touches contracts, topology, architecture, governance, or release rules
 
 Procedure:
 
-1. Update affected blueprint/governance docs in dependency order.
-2. Re-check cross-document consistency.
-3. Ensure project rules still enforce intended behavior.
+1. update affected blueprint or governance docs in dependency order
+2. re-check cross-document consistency
+3. ensure project rules still enforce intended behavior
+4. ensure runtime findings are written back to affected docs
 
 Output:
 
-- Updated blueprint/governance docs
-- Consistency check result
+- updated blueprint or governance docs
+- consistency check result
 
 Gate:
 
-- No unresolved doc-to-doc or doc-to-contract mismatch.
+- no unresolved doc-to-doc or doc-to-contract mismatch remains
 
 Failure handling:
 
-- Roll back to earliest mismatched layer and reconcile.
+- roll back to the earliest mismatched layer and reconcile
 
 ## Phase 4: Build, Verify, and Readiness Closure
 
 Objective:
 
-- Produce runnable system state with test/review evidence and readiness signal.
+- produce runnable system state with test, review, and readiness evidence
 
 Procedure:
 
-1. Implement according to approved blueprints and rules.
-2. Validate endpoint integrations on real dependencies.
-3. Close runtime bug loop with root-cause evidence.
-4. Close static review loop with issue/fix evidence.
-5. Execute readiness checklist.
+1. implement according to approved blueprints and rules
+2. validate endpoint integrations on real dependencies
+3. close the runtime bug loop with root-cause evidence
+4. close the static review loop with issue and fix evidence
+5. execute the readiness checklist
 
 Output:
 
-- Verified implementation
-- Test and review evidence
-- Readiness result
+- verified implementation
+- test and review evidence
+- readiness result
 
 Gate:
 
-- Required tests and readiness checks are passing.
+- required tests and readiness checks are passing
 
 Failure handling:
 
-- Route failure to proper rollback target (Layer 6/5/4/3/2 based on source).
+- route failure to the proper rollback target based on source
 
 ## Phase 5: Exit Bootstrap or Continue Maintenance
 
 Objective:
 
-- Decide operation state after completion of current scope.
+- decide the operation state after completion of the current scope
 
 Bootstrap exit checklist:
 
-1. Layer 6 complete.
-2. Stability window met.
-3. Docs-implementation spot-check pass.
-4. Onboarding path reproducible.
+1. Layer 6 is complete.
+2. Stability window is met.
+3. Docs-implementation spot-check passes.
+4. Onboarding path is reproducible.
 
 If all pass:
 
-- Mark bootstrap completion in governance records.
-- Switch default mode to maintenance.
+- mark bootstrap completion in governance records
+- switch default operation mode to maintenance
 
 Maintenance continuation checklist:
 
-1. Affected layers closed with evidence.
-2. No unresolved drift in touched scope.
-3. Re-entry trigger table remains accurate.
+1. affected layers are closed with evidence
+2. no unresolved drift remains in touched scope
+3. the re-entry trigger table remains accurate
 
 Output:
 
-- Explicit state: `bootstrap_exited` or `maintenance_continues`
-- Completion note with touched layers and evidence index
+- `scope_result`: `accepted`, `rework-required`, `blocked`, or `incomplete`
+- `operation_state`: `bootstrap_exited`, `maintenance_continues`, or `in_progress`
+- completion note with touched layers and evidence index
 
 ## Fast Mapping Table
 
-| Change Type | Default Mode | Start Layer |
+| Change type | Default mode | Start layer |
 |---|---|---|
-| New/replaced core component | bootstrap | 0 |
-| Data-flow/topology change | maintenance/bootstrap | 2 |
-| External framework or deployment shift | maintenance/bootstrap | 3 |
-| New major feature flow | maintenance/bootstrap | 4 |
-| Engineering-rule drift | maintenance | 5 |
-| Local implementation bug under stable contracts | maintenance | 6 |
+| New or replaced core component | `bootstrap` | `0` |
+| Data-flow or topology change | `maintenance` or `bootstrap` | `2` |
+| External framework or deployment shift | `maintenance` or `bootstrap` | `3` |
+| New major feature flow | `maintenance` or `bootstrap` | `4` |
+| Engineering-rule drift | `maintenance` | `5` |
+| Local implementation bug under stable contracts | `maintenance` | `6` |
 
-## Required Execution Record (Per Scope)
+## Required Execution Record
 
-For each scope execution, persist:
+For each scoped execution, persist:
 
-- Mode classification
-- Start layer
-- Touched layers
-- Layer outcomes (`pass`/`fail`)
-- Evidence pointers
-- Rollback decision(s)
-- Final operation state
+- mode classification
+- start layer
+- touched layers
+- layer outcomes
+- evidence pointers
+- rollback decisions
+- `scope_result`
+- `operation_state`
 
 Missing record means incomplete execution closure.

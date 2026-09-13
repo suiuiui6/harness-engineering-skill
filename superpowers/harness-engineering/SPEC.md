@@ -3,7 +3,7 @@ name: harness-engineering
 type: superpower-spec
 status: canonical
 canonical: true
-version: 1.0.0
+version: 1.2.0
 ---
 
 # Harness Engineering Capability Specification
@@ -12,291 +12,376 @@ version: 1.0.0
 
 Harness Engineering is a document-driven, gate-controlled delivery method for:
 
-- Bootstrap of a new project or net-new primary workflow
-- Controlled maintenance changes on an already stable system
-- Minimal-scope rollback and deterministic re-entry when assumptions fail
+- bootstrap of a new project or net-new primary workflow
+- controlled maintenance changes on an already stable system
+- minimal-scope rollback and deterministic re-entry when assumptions fail
 
-This superpower governs decision flow and artifact discipline. It is platform-agnostic. Runtime/host behavior differences are delegated to `adapters/*`.
+This superpower governs decision flow, artifact discipline, and the route from capability proof to productized delivery. Runtime or host differences are delegated to `adapters/*`.
 
-## 2. Canonical References
+## 2. Method Anchors
 
-Normative references (must stay aligned):
+Harness Engineering always carries these anchors:
+
+- layered decomposition
+- evidence before advancement
+- specification solidification from measured behavior
+- single-component MVP proof before bridge work
+- environment isolation
+- progressive integration toward release
+
+Priority rule:
+
+- source or API inspection is the final authority for capability claims
+- runtime facts outrank stale documentation or informal promises
+
+## 3. Delivery Arc
+
+The method is easiest to understand as a three-phase arc that maps onto the canonical seven layers.
+
+| Method phase | Goal | Canonical moves | Primary layers |
+|---|---|---|---|
+| Phase 1: Foundation and capability proof | Make work observable and prove real capability boundaries | workbench baseline, boundary mapping, source or API verification | precondition, Layer 0-1 |
+| Phase 2: Engineering loop | Turn proof into contracts, bridges, and system blueprints | spec consolidation, single-component MVP closure, runtime-driven correction | Layer 1-4 |
+| Phase 3: Productization | Isolate environments, integrate by plan, and land the product | environment isolation, planned integration, API -> prototype -> frontend -> integrated release | Layer 5-6 |
+
+The phase model explains intent. The layer model remains the execution contract.
+
+## 4. Canonical References
+
+Normative references that must stay aligned inside this bundle:
 
 - `core/flow.md`
 - `core/layer-details.md`
 - `core/checklists.md`
 - `core/exit-and-reentry.md`
 
+Host-specific references:
+
+- `adapters/codex/host-map.md`
+- `adapters/claude-code/host-map.md`
+
 Conflict rule:
 
-- If adapter behavior conflicts with core engineering constraints, core constraints win.
+- if adapter behavior conflicts with core engineering constraints, core constraints win
 
-## 3. Operating Modes
+## 5. Operating Modes
 
-### 3.1 Bootstrap Mode
+### 5.1 Bootstrap Mode
 
-Use when request implies one of:
+Use when the request implies one of:
 
-- New superpower construction
-- Core component replacement
-- Main architecture rebuild
-- Net-new primary workflow
-
-Execution path:
-
-- Run Layer 0 -> 6 in strict order
-- Do not cross a gate without pass evidence
-
-### 3.2 Maintenance Mode
-
-Use when request is localized:
-
-- Feature increment
-- Bug fix
-- Focused refactor
-- Local spec/contract correction
+- new superpower construction
+- core component replacement
+- main architecture rebuild
+- net-new primary workflow
 
 Execution path:
 
-- Start from smallest impacted layer
-- Re-open upstream only on evidence of broken assumptions
+- run Layer 0 -> 6 in strict order
+- do not cross a gate without pass evidence
 
-## 4. Layer Contract (Global)
+### 5.2 Maintenance Mode
 
-Each layer must define and produce:
+Use when the request is localized:
 
-- Inputs: concrete artifacts or runtime facts required to start
-- Actions: bounded, executable work
-- Outputs: persisted artifacts
-- Pass Gate: objective criteria to advance
-- Fail Signal: what invalidates the current layer
-- Rollback Target Rule: smallest upstream layer that must be revisited
+- feature increment
+- bug fix
+- focused refactor
+- local spec or contract correction
+
+Execution path:
+
+- start from the smallest impacted layer
+- reopen upstream only when evidence shows a broken assumption
+
+## 6. Global Contract
+
+Every touched layer must define and produce:
+
+- inputs: concrete artifacts or runtime facts required to start
+- actions: bounded, executable work
+- outputs: persisted artifacts
+- pass gate: objective criteria to advance
+- fail signal: what invalidates the current layer
+- rollback target rule: the smallest upstream layer that must be revisited
 
 Advance rule:
 
-- `PASS` required to move forward
+- `PASS` is required to move forward
 
 Failure rule:
 
 - `FAIL` stops forward progress
-- Repair inside current layer first
-- If root cause is upstream assumption, roll back minimally
+- repair inside the current layer first
+- if root cause is upstream assumption failure, roll back minimally
 
-## 5. Layer-by-Layer Detailed Contract
+## 7. Execution Precondition: Workbench Baseline
 
-## 5.1 Layer 0: Capability Boundary Mapping
+Before any layer starts, establish a workbench baseline for the affected scope.
 
 Inputs:
 
-- Candidate component list
-- Source/API entry points
-- Dependency declarations and provider/factory contracts
+- workspace or runtime boundary for the task
+- expected evidence locations
+- secret template and ignore policy
+- execution record destination
 
 Actions:
 
-- Verify explicit capabilities by code/API evidence
-- Verify explicit non-capabilities (unsupported paths)
-- Persist boundary records with evidence pointers
+- confirm the affected scope can be observed, replayed, and audited
+- confirm commands can be rerun by another operator
+- confirm secrets remain templated and excluded from repo or logs
 
 Outputs:
 
-- Capability boundary record per component
+- bounded execution surface
+- evidence index for this scope
 
 Pass Gate:
 
-- Capability + non-capability statements are explicit for all candidates
-- Evidence is inspection-based, not assumption-based
+- work is observable, manageable, and reusable for the affected scope
 
 Fail Signal:
 
-- Any "probably supported" claim without proof
-- Missing non-capability list
+- shared or drifting runtime with no traceable evidence path
+- commands cannot be replayed
 
 Rollback Target Rule:
 
-- N/A (first layer)
+- repair the baseline before entering any numbered layer
 
-## 5.2 Layer 1: Per-Component MVP Validation
+## 6.1. Five-Part Execution Loop
+
+Every execution record must make the engineering loop explicit:
+
+1. **Goal** — state the observable outcome, scope boundary, and acceptance criteria.
+2. **Execution** — list bounded actions, dependencies, sequencing, and stop/rollback conditions.
+3. **Environment** — record host mode, workspace/isolation boundary, runtime/dependency versions, permissions, and external constraints.
+4. **Retrospective** — at closure, compare result with the goal, record deviations, root causes, lessons, and what the evidence cannot prove.
+5. **State handoff** — record the next start layer, preserved artifacts/evidence, open risks, and the first restart action.
+
+The first three fields are required before governed mutation. The last two are required for `accepted`, `rework-required`, `blocked`, and `incomplete` closure records. A closure without a state handoff is incomplete because it cannot safely seed the next plan.
+
+## 8. Layer-by-Layer Contract
+
+## 8.1 Layer 0: Capability Boundary Mapping
+
+Inputs:
+
+- candidate component list
+- source or API entry points
+- dependency declarations and provider or factory contracts
+
+Actions:
+
+- verify explicit capabilities by code or API evidence
+- verify explicit non-capabilities and unsupported paths
+- persist boundary records with evidence pointers
+
+Outputs:
+
+- capability boundary record per component
+
+Pass Gate:
+
+- capability and non-capability statements are explicit for all candidates
+- evidence is inspection-based, not assumption-based
+
+Fail Signal:
+
+- any "probably supported" claim without proof
+- missing non-capability list
+
+Rollback Target Rule:
+
+- not applicable because this is the first numbered layer
+
+## 8.2 Layer 1: Per-Component MVP Validation
 
 Inputs:
 
 - Layer 0 boundary records
-- Selected component set
+- selected component set
 
 Actions:
 
-- Create isolated runtime for each component
-- Install minimal dependencies
-- Create secret template and ignore real secret files
-- Build minimal runnable script with representative sample input
-- Execute and preserve runtime evidence
-- Derive measured component I/O contract from output
+- create isolated runtime for each component
+- install minimal dependencies
+- create secret template and ignore real secret files
+- build a minimal runnable script with representative sample input
+- execute and preserve runtime evidence
+- derive measured component I/O contract from output
 
 Outputs:
 
-- Runnable MVP assets per component
-- Component spec v1 (measured contracts)
+- runnable MVP assets per component
+- component spec v1 derived from measured contracts
 
 Pass Gate:
 
-- Every selected component runs independently
-- Minimal required path is validated with real execution
-- Artifacts are preserved and traceable
+- every selected component runs independently
+- the minimal required path is validated with real execution
+- artifacts are preserved and traceable
 
 Fail Signal:
 
-- Integration attempted before isolated pass
-- Shared runtime causes non-deterministic behavior
-- Spec written without measured output
+- integration attempted before isolated pass
+- shared runtime causes non-deterministic behavior
+- spec written without measured output
 
 Rollback Target Rule:
 
-- If failure is boundary misunderstanding -> Layer 0
-- Else repair in Layer 1
+- if failure is a boundary misunderstanding, roll back to Layer 0
+- otherwise repair in Layer 1
 
-## 5.3 Layer 2: Integration Topology + Bridge Pipeline
+## 8.3 Layer 2: Integration Topology and Bridge Pipeline
 
 Inputs:
 
 - Layer 1 component specs
-- Dependency and data-flow requirements
+- dependency and data-flow requirements
 
 Actions:
 
-- Define component dependency graph and stage order
-- Define schema conversion on every edge
-- Implement bridge pipeline stage-by-stage
-- Validate each stage before next
-- Add cache/replay mode for downstream debugging
+- define component dependency graph and stage order
+- define schema conversion on every edge
+- implement bridge pipeline stage by stage
+- validate each stage before moving forward
+- add cache or replay mode for downstream debugging
 
 Outputs:
 
-- Integration topology specification
-- Bridge implementation with stage-level traceability
+- integration topology specification
+- bridge implementation with stage-level traceability
 
 Pass Gate:
 
-- All bridge stages have explicit input/output schema
-- Topology references all upstream component specs
-- End-to-end run is reproducible
+- all bridge stages have explicit input or output schema
+- topology references all upstream component specs
+- end-to-end bridge run is reproducible
 
 Fail Signal:
 
-- End-only testing without stage validation
-- Implicit schema assumptions
+- end-only testing without stage validation
+- implicit schema assumptions
 
 Rollback Target Rule:
 
-- If single-stage mapping bug -> current Layer 2 stage
-- If component contract from Layer 1 is invalid -> Layer 1
+- if it is a single-stage mapping bug, repair in Layer 2
+- if the component contract from Layer 1 is invalid, roll back to Layer 1
 
-## 5.4 Layer 3: External Tooling Validation + Technical Architecture
+## 8.4 Layer 3: External Tooling Validation and Technical Architecture
 
 Inputs:
 
 - Layer 2 topology and bridge evidence
-- External framework/service requirements (optional)
+- optional external framework or service requirements
 
 Actions:
 
-- Validate connectivity/compatibility of optional external tooling
-- Define technical components and deployment units
-- Define inter-unit communication contracts
-- Record architecture decisions with rationale (ADR-style)
+- validate connectivity and compatibility of optional external tooling
+- define technical components and deployment units
+- define inter-unit communication contracts
+- record architecture decisions with rationale
 
 Outputs:
 
-- Technical architecture document
-- Optional external-tool connectivity records
+- technical architecture document
+- optional external-tool connectivity records
 
 Pass Gate:
 
-- No unvalidated component enters architecture
-- Architecture + communication contracts are explicit
-- Decision rationale exists
+- no unvalidated component enters architecture
+- architecture and communication contracts are explicit
+- decision rationale exists
 
 Fail Signal:
 
-- Architecture claim without validated component/tooling
-- Missing rationale for critical decisions
+- architecture claim without validated component or tooling
+- missing rationale for critical decisions
 
 Rollback Target Rule:
 
-- If architecture issue is topology mismatch -> Layer 2
-- If root cause is wrong component capability assumption -> Layer 0/1
+- if the architecture issue is a topology mismatch, roll back to Layer 2
+- if root cause is a wrong capability assumption, roll back to Layer 0 or 1
 
-## 5.5 Layer 4: Product and System Blueprints
+## 8.5 Layer 4: Product and System Blueprints
 
 Inputs:
 
 - Layer 3 architecture baseline
-- Product requirements and constraints
+- product requirements and constraints
 
-Actions (fixed order):
+Actions in fixed order:
 
-- Write PRD first
-- Write backend API specification second
-- Write frontend system specification third
-- Cross-check dependency and contract consistency across all three
+- write the PRD first
+- write the backend API specification second
+- write the frontend system specification third
+- make the implementation route explicit from API to prototype to frontend and integrated flow
+- cross-check dependency and contract consistency across all three documents
 
 Outputs:
 
 - PRD
-- Backend API specification
-- Frontend system specification
+- backend API specification
+- frontend system specification
 
 Pass Gate:
 
-- Three docs complete and mutually consistent
-- Priority and implementation route are explicit
-- Document dependency order respected
+- all three documents are complete and mutually consistent
+- priority and implementation route are explicit
+- document dependency order is respected
 
 Fail Signal:
 
-- Implementation starts before blueprint convergence
-- Frontend spec precedes clear backend contracts
+- implementation starts before blueprint convergence
+- frontend spec precedes clear backend contracts
 
 Rollback Target Rule:
 
-- If contract mismatch from architecture assumptions -> Layer 3
-- If product scope invalidates architecture -> Layer 3 (or Layer 2 on data-flow change)
+- if there is a contract mismatch from architecture assumptions, roll back to Layer 3
+- if product scope invalidates architecture, roll back to Layer 3 or Layer 2 if data flow changed
 
-## 5.6 Layer 5: Project Engineering Rules
+## 8.6 Layer 5: Project Engineering Rules
 
 Inputs:
 
 - Layer 4 approved blueprints
-- Team/process constraints
+- team and process constraints
 
 Actions:
 
-- Define repository boundaries and ownership
-- Define runtime isolation and dependency lock policy
-- Define secret handling and log hygiene policy
-- Define integration-test discipline on real dependencies
-- Define collaboration roles and review/debug loops
-- Define security scan baseline and readiness gates
+- define repository boundaries and ownership
+- define runtime isolation and dependency lock policy
+- define secret handling and log hygiene policy
+- define integration-test discipline on real dependencies
+- define collaboration roles and review or debug loops
+- define security scan baseline and readiness gates
+- complete the Product Contract with version declaration, boundary definition, change log, and acceptance criteria
 
 Outputs:
 
-- Engineering rules/governance document (discoverable)
+- engineering rules or governance document
+- Product Contract linked from Layer 5 outputs
 
 Pass Gate:
 
-- Mandatory policies exist and are explicit
-- Rules are enforceable and discoverable by executors
+- mandatory policies exist and are explicit
+- rules are enforceable and discoverable by executors
+- Product Contract is complete and linked
 
 Fail Signal:
 
-- Integration contracts validated only with mocks
-- Missing dependency lock or vulnerability-scan baseline
+- integration contracts are validated only with mocks
+- missing dependency lock or vulnerability-scan baseline
+- any Product Contract field is missing
 
 Rollback Target Rule:
 
-- If rules conflict with blueprint assumptions -> Layer 4
-- Else repair in Layer 5
+- if rules conflict with blueprint assumptions, roll back to Layer 4
+- otherwise repair in Layer 5
 
-## 5.7 Layer 6: Construction, Integration, and Readiness
+## 8.7 Layer 6: Construction, Integration, and Readiness
 
 Inputs:
 
@@ -305,90 +390,94 @@ Inputs:
 
 Actions:
 
-- Implement frontend from approved frontend spec
-- Implement backend from approved backend API spec
-- Add integration tests for backend endpoints
-- Execute integration and optional E2E checks
-- Close runtime bug loop via root-cause/fix evidence
-- Close static review loop via issue/fix evidence
-- Execute production-readiness checklist
+- implement frontend from approved frontend spec
+- implement backend from approved backend API spec
+- add integration tests for backend endpoints
+- execute integration and optional end-to-end checks
+- drive the delivery path from API to prototype to frontend to integrated release as applicable
+- close the runtime bug loop with root-cause and fix evidence
+- close the static review loop with issue and fix evidence
+- execute the production-readiness checklist
 
 Outputs:
 
-- Running system (frontend/backend independent + integrated)
-- Integration test evidence
-- Review and bugfix evidence
-- Readiness checklist result
+- running system with independent and integrated surfaces
+- integration test evidence
+- review and bug-fix evidence
+- readiness checklist result
 
 Pass Gate:
 
-- Integration workflow runs end-to-end
-- Required tests pass on real dependencies
-- Runtime and static issues are closed
-- Production-readiness checklist passes
+- the integration workflow runs end to end
+- required tests pass on real dependencies
+- runtime and static issues are closed
+- production-readiness checklist passes
 
 Fail Signal:
 
-- "Runs once" treated as completion
-- Readiness bypass
+- "runs once" is treated as completion
+- readiness is bypassed
+- runtime facts contradict docs and no write-back or rollback occurs
 
 Rollback Target Rule:
 
-- If implementation bug under stable contract -> stay Layer 6
-- If contract mismatch -> Layer 4 or 5 depending on source
-- If architecture/topology invalid -> Layer 3 or 2
+- if it is an implementation bug under stable contracts, stay in Layer 6
+- if it is a contract mismatch, roll back to Layer 4 or 5 depending on source
+- if architecture or topology is invalid, roll back to Layer 3 or 2
 
-## 6. Exit and Re-entry Contract
+## 9. Exit and Re-entry Contract
 
-Bootstrap exit allowed only when all are true:
+Bootstrap exit is allowed only when all are true:
 
-- Layer 6 deliverables complete
-- Stability window met
-- Spot-check confirms docs-code consistency
-- Onboarding path reproduces environment + core flow
+- Layer 6 deliverables are complete
+- stability window is met
+- spot-check confirms docs and implementation consistency
+- onboarding path reproduces environment and core flow
 
 Then:
 
-- Record bootstrap completion date in governance docs
-- Switch default operation to Maintenance Mode
+- record bootstrap completion date in governance docs
+- switch default operation to Maintenance Mode
 
 Re-entry triggers and minimal start layer:
 
-- New/replaced core component -> Layer 0
-- Data-flow/topology change -> Layer 2
-- External framework/deployment shift -> Layer 3
-- New major feature flow -> Layer 4
-- Engineering discipline drift -> Layer 5
-- Large-scale refactor -> Layer 4 then progress to 6
+- new or replaced core component -> Layer 0
+- data-flow or topology change -> Layer 2
+- external framework or deployment shift -> Layer 3
+- new major feature flow -> Layer 4
+- engineering-discipline drift -> Layer 5
+- large-scale refactor -> Layer 4 then progress to 6
 
-## 7. Required Artifacts Matrix
+## 10. Required Artifact Matrix
 
 Each execution cycle must leave traceable artifacts:
 
-- Layer gate status (`pass`/`fail`)
-- Evidence pointer(s) per gate
-- Rollback decision (if any) with minimal-scope rationale
-- Updated affected spec documents
+- layer gate status per touched layer
+- evidence pointers per gate
+- rollback decisions with minimal-scope rationale
+- updated affected spec or governance documents
+- closure record with `scope_result` and `operation_state`
 
 No hidden completion rule:
 
-- Work is incomplete if artifacts are missing even when code appears to run.
+- work is incomplete if artifacts are missing, even when code appears to run
 
-## 8. Security and Quality Baseline
+## 11. Security and Quality Baseline
 
 Mandatory baseline across all modes:
 
-- Secret hygiene (no secrets in repo/logs)
-- Dependency and vulnerability hygiene
-- Timeout/failure semantics for external calls
-- Documentation remains source-of-truth for behavior
+- secret hygiene with no secrets in repo or logs
+- dependency and vulnerability hygiene
+- timeout and failure semantics for external calls
+- documentation remains source of truth after runtime write-back
+- runtime isolation controls remain explicit
 
-## 9. Non-goals
+## 12. Non-goals
 
 This superpower does not prescribe:
 
-- A specific tech stack
-- A fixed UI style or deployment vendor
-- Adapter-specific command syntax
+- a specific tech stack
+- a fixed UI style or deployment vendor
+- adapter-specific command syntax
 
-Those concerns are implementation-level and belong to adapters/project rules.
+Those concerns belong to adapters and project rules.

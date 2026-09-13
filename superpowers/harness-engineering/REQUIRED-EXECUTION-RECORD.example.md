@@ -1,105 +1,116 @@
 # Required Execution Record (Example)
 
-该模板用于一次完整执行的可追溯验收记录，覆盖模式判定、起始层、每层 gate、证据、回退与最终状态。
+该示例展示一次维护期治理收敛：只重开最小必要层，修正 closure 语义与 Layer 5 约束，而不是错误地回到完整 0->6 流程。
 
 ## Meta
 
-- Request ID: `REQ-2026-06-01-001`
-- Date: `2026-06-01`
+- Request ID: `REQ-2026-06-15-001`
+- Date: `2026-06-15`
 - Operator: `@agent`
-- Workspace: `D:/graghRAG-agent/harness-engineering`
-- Canonical Spec: `superpowers/harness-engineering/SPEC.md`
+- Workspace: `<bundle-root>`
+- Canonical Spec: `SPEC.md`
 - Related Inputs:
-  - User request: "为维护期新增执行可追溯记录模板并接入入口文档"
-  - Constraints: "仅最小必要改动，不改动流程定义"
+  - User request: "把 harness-engineering 的 closure 状态拆成 scope_result 和 operation_state，并同步 Layer 5 Product Contract 约束"
+  - Constraints: "只改当前 bundle 内文档，不扩散到其他目录"
+  - Canonical refs read:
+    - `SPEC.md`
+    - `PHASES.md`
+    - `core/flow.md`
+    - `core/checklists.md`
+    - `core/exit-and-reentry.md`
+    - `adapters/codex/host-map.md`
 
-## 0) Mode Classification
+## 0) Entry Classification
 
 - Current mode: `maintenance`
 - Classification basis:
-  - Existing project with stable baseline
-  - Change scope is documentation/traceability enhancement
-  - No new core component introduced
-- Decision: `do not start full Layer 0-6 build flow`
+  - Existing methodology package already exists and remains stable
+  - Requested change is governance and closure-schema alignment
+  - No component, topology, or architecture capability is being replaced
+- Scope kind: `governance-drift`
+
+## 0.5) Workbench Baseline
+
+- Isolated runtime or bounded workspace: `yes`
+- Evidence locations known: `yes`
+- Execution record destination prepared: `yes`
+- Secret template and ignore policy ready: `yes`
+- Replayable commands confirmed: `yes`
+- Baseline result: `pass`
 
 ## 1) Start Layer Decision
 
-- Affected surface: execution traceability artifacts + doc discoverability
-- Minimum re-entry layer: `Layer 4` (documentation blueprint / delivery artifact layer)
+- Affected surface: methodology governance, checks, and execution-record schema
+- Minimum re-entry layer: `Layer 5`
+- Delivery phase or phases touched:
+  - `Productization`
 - Why not lower:
-  - Layer 0-3 assumptions and component topology unchanged
-  - No architectural decision changes
+  - Layer 0-4 capability, topology, and blueprint assumptions are unchanged
+  - The request changes rules and closure semantics, not component or contract behavior
 
-## 2) Layer Gates
+## 2) Touched Layer Records
 
-### Layer 4 Gate
+### Layer 5
 
-- Goal: produce an executable, reviewable trace record sample
-- Entry criteria:
-  - Existing spec fields for mode/layer/gates/evidence are identifiable
+- Goal: align governance rules and closure schema with current core policy
+- Inputs:
+  - `core/flow.md`
+  - `core/checklists.md`
+  - `core/exit-and-reentry.md`
+  - existing bundle-root docs
 - Actions:
-  - Add `REQUIRED-EXECUTION-RECORD.example.md` with fixed sections:
-    - Meta
-    - mode classification
-    - start layer decision
-    - per-layer gate evidence
-    - rollback
-    - final status
-- Evidence:
-  - New file path present
-  - Section headings complete and ordered
+  - add explicit `scope_result` and `operation_state` closure contract
+  - add Product Contract requirements to Layer 5 rules and checks
+  - rewrite execution record template and example for maintenance-mode minimal re-entry
+- Outputs:
+  - updated skill entry
+  - updated spec, phases, and checks docs
+  - updated execution record template and example
+- Evidence pointers:
+  - `SKILL.md`
+  - `SPEC.md`
+  - `PHASES.md`
+  - `CHECKS.md`
+  - `REQUIRED-EXECUTION-RECORD.template.md`
+  - `REQUIRED-EXECUTION-RECORD.example.md`
 - Gate result: `pass`
+- Decision: `advance`
+- Rollback target if failed: `Layer 4`
 
-### Layer 5 Gate
+## 3) Verification and Runtime Facts
 
-- Goal: align artifact with governance and review expectations
-- Entry criteria:
-  - Layer 4 output exists
-- Actions:
-  - Verify wording aligns with core principles:
-    - spec as source of truth
-    - explicit pass/fail gate
-    - rollback trace
-- Evidence:
-  - Sample includes explicit `pass/fail` and rollback section
-- Gate result: `pass`
-
-### Layer 6 Gate
-
-- Goal: ensure handoff readiness and operational traceability
-- Entry criteria:
-  - Sample file integrated in discoverable docs entry
-- Actions:
-  - Link sample from top-level README and superpowers README
-- Evidence:
-  - Links exist and resolve to sample path
-- Gate result: `pass`
-
-## 3) Verification Evidence
-
-- Changed files:
-  - `superpowers/harness-engineering/REQUIRED-EXECUTION-RECORD.example.md`
-  - `superpowers/README.md`
-  - `README.md`
 - Checks performed:
-  - Path existence check
-  - Link target consistency check
-  - Scope check: no process-definition file modified
+  - confirm all touched docs use `bootstrap` instead of `setup`
+  - confirm closure now separates `scope_result` from `operation_state`
+  - confirm Layer 5 checklist includes Product Contract fields
+- Observed runtime facts:
+  - previous closure schema overloaded one field with two meanings
+  - previous example reopened deeper layers than the actual change scope required
+- Required doc write-back:
+  - update templates and examples to reflect minimal re-entry
+  - update method docs to reflect the three-phase arc explicitly
+- Drift status: `docs-updated`
 
 ## 4) Rollback / Re-entry Record
 
 - Rollback triggered: `no`
+- First invalid assumption: `n/a`
 - If rollback needed:
-  - target layer: `Layer 4`
-  - trigger condition: "record sections missing or evidence cannot be mapped"
-  - corrective action: "complete mandatory sections and re-run Layer 4 gate"
+  - target layer: `Layer 5`
+  - trigger condition: "Product Contract fields remain implicit or closure state remains ambiguous"
+  - corrective action: "revise governance docs and execution record, then re-run Layer 5 checks"
+  - forward re-validation evidence:
+    - `CHECKS.md`
 
-## 5) Final Status
+## 5) Final Closure
 
-- Execution status: `accepted`
+- Touched layers:
+  - `Layer 5`
+- Scope result: `accepted`
+- Operation state: `maintenance_continues`
 - Acceptance rationale:
-  - Artifact is concrete, reusable, and traceable
-  - Discoverability is established via docs entry points
-  - Change scope matches maintenance-mode minimal re-entry strategy
+  - closure semantics are now explicit and machine-readable
+  - Layer 5 governance package now matches current core constraints
+  - example demonstrates minimal re-entry instead of unnecessary full rebuild logic
 - Next suggested action:
-  - Use this file as baseline for future execution logs and duplicate per request with new `Request ID`
+  - update the root compatibility bridge and adapter references in sibling directories when that scope is intentionally reopened

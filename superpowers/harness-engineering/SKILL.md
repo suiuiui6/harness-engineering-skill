@@ -1,159 +1,46 @@
 ---
 name: harness-engineering
-type: skill-entry
-status: canonical
-canonical: true
-version: 1.1.0
+description: Use when the user explicitly asks for `/harness-engineering` or when the work involves core component replacement, topology or architecture change, major feature-flow design, governance/reset work, or maintenance that must prove evidence, minimal rollback, and structured closure. Do not use it for casual explanation, isolated review, or one-off local tweaks unless the user explicitly asks for the workflow.
 ---
 
-# Harness Engineering Skill Entry
+# Harness Engineering
 
-This file is the canonical host-facing entry for invoking the `harness-engineering` workflow.
+This bundle is the copyable entry point for evidence-first engineering work. Keep the hot path short: classify, choose the smallest valid layer, load only the references needed now, and close with canonical fields.
 
-## Purpose
+## Five-Stage Runtime
 
-Use this skill to enforce the full Harness Engineering method instead of doing ad hoc implementation.
+`Trigger -> Load -> Inject -> Orchestrate -> Return`
 
-The entry must ensure that execution always:
+- Read `references/runtime-stages.md` first.
+- Read `references/delivery-arc.md` when aligning method phase to layers or checking Layer 5 constraints.
+- Read `references/output-contract.md` before gate, readiness, or closure replies.
+- In Codex, read `adapters/codex/host-map.md`.
+- In Claude Code, read `adapters/claude-code/host-map.md`.
+- When installing or synchronizing a host bundle, read `adapters/codex/assembly.md` or `adapters/claude-code/assembly.md` for that host.
 
-- classifies work as `bootstrap` or `maintenance`
-- chooses the smallest valid start layer
-- reads only the required canonical references for the chosen scope
-- enforces layer gates with explicit evidence
-- applies minimal rollback when assumptions fail
-- closes with touched layers, evidence pointers, and final operation state
+## Hot-Path Rules
 
-## Invocation Rule
+- Classify `bootstrap` or `maintenance`.
+- Choose the smallest valid start layer from current evidence.
+- Verify the workbench baseline before touching any layer.
+- Do not cross a layer gate without pass evidence.
+- If downstream evidence breaks an upstream assumption, roll back minimally.
+- Every closure must emit `scope_result` and `operation_state`.
+- Every active run also carries `goal_statement`, `execution_plan`, and `environment_facts`; closure adds a concise `retrospective` and an actionable `next_start_state` so the next run can resume from evidence rather than reconstructing context.
 
-Invoke this skill when the task needs controlled, methodology-bound execution flow.
+## Cold-Path Reads
 
-Typical triggers:
+- Read `SPEC.md` and `PHASES.md` only for contract wording, policy disputes, or delivery-arc alignment.
+- Read `core/checklists.md` only for gate or readiness evaluation.
+- Read `core/exit-and-reentry.md` only for rollback or maintenance re-entry decisions.
+- Read `core/layer-details.md` only for per-layer anti-patterns, outputs, or detailed repair guidance.
+- Read `core/capability-model.md` only when capability boundaries or component roles need clarification.
+- Read `references/decision-quality.md` only when the risk check identifies a trigger or when evaluating a decision-quality gate; do not turn it into an always-on prompt ritual.
+- Read `references/learn-harness-engineering-mapping.md` when comparing this bundle with the upstream course or deciding whether to import a harness pattern.
 
-- new superpower construction
-- core component replacement
-- architecture or topology changes
-- major feature-flow design
-- engineering-governance reset
-- any maintenance task that must prove layer discipline instead of direct implementation
+## Reusable Resources And Validation
 
-Do not use this skill for casual exploration or one-off ad hoc answers unless the user explicitly wants the Harness Engineering workflow applied.
-
-## Canonical References
-
-Read from this set only as required by scope:
-
-- `superpowers/harness-engineering/SPEC.md`
-- `superpowers/harness-engineering/PHASES.md`
-- `core/flow.md`
-- `core/layer-details.md`
-- `core/checklists.md`
-- `core/exit-and-reentry.md`
-
-Reference rule:
-
-- `SPEC.md` defines the normative contract.
-- `PHASES.md` defines execution choreography.
-- `core/flow.md` defines classification, layer order, pass gates, rollback, and maintenance re-entry.
-- `core/layer-details.md` defines layer objectives, actions, outputs, and anti-patterns.
-- `core/checklists.md` defines pass and readiness checks.
-- `core/exit-and-reentry.md` defines bootstrap exit and maintenance re-entry policy.
-
-If any host behavior or local instruction conflicts with these core engineering constraints, the canonical methodology wins unless the user explicitly chooses to deviate.
-
-## Required Execution Sequence
-
-1. Read `core/flow.md` and classify the work as `bootstrap` or `maintenance`.
-2. Choose the smallest valid start layer using re-entry triggers and current evidence.
-3. Read only the canonical references required for the chosen scope.
-4. Execute touched layers in order and record explicit `pass` or `fail` evidence per layer.
-5. Stop forward progress immediately on gate failure.
-6. Repair in the current layer first; if the failure is caused by an invalid upstream assumption, roll back to the smallest upstream layer that contains that assumption.
-7. Re-validate from the rollback target forward for the affected scope.
-8. Close with touched layers, layer outcomes, evidence pointers, rollback decisions, and final operation state.
-
-## Scope-Driven Reading Rule
-
-Minimum required reads by scope:
-
-- All invocations: `core/flow.md`
-- If layer behavior or anti-patterns matter: `core/layer-details.md`
-- If gate evaluation or readiness matters: `core/checklists.md`
-- If exit/re-entry classification matters: `core/exit-and-reentry.md`
-- If a full canonical contract or wording dispute matters: `SPEC.md`
-- If execution choreography or rollback procedure matters: `PHASES.md`
-
-Bootstrap expectation:
-
-- Read the full canonical set before or during execution because Layer 0 -> 6 can all become relevant.
-
-Maintenance expectation:
-
-- Start with the minimum set required by the chosen start layer and expand only when evidence forces broader scope.
-
-## Layer Gate Rule
-
-For every touched layer, the executor must make all of the following explicit:
-
-- inputs used
-- actions performed
-- outputs produced
-- pass or fail outcome
-- evidence pointer(s)
-- rollback target if failed
-
-Advance rule:
-
-- Never move to the next layer without current-layer pass evidence.
-
-Failure rule:
-
-- A missing artifact or missing evidence means the layer is not complete, even if code appears to run.
-
-## Minimal Rollback Rule
-
-When a failure appears, identify the first invalid assumption in the dependency chain.
-
-- If the assumption is still valid and execution is simply incomplete, repair in the current layer.
-- If the assumption is invalid, roll back only to the smallest upstream layer that owns that assumption.
-- Do not reset to Layer 0 by default.
-- After rollback changes, re-run gate checks from the rollback target forward for affected scope only.
-
-## Completion Contract
-
-Every invocation must end with an explicit closure record containing:
-
-- mode classification
-- chosen start layer
-- touched layers
-- layer outcomes (`pass` or `fail`)
-- evidence pointers
-- rollback decision(s), if any
-- final operation state: `bootstrap_exited` or `maintenance_continues` or equivalent in-progress status if work is not complete
-
-Completion rule:
-
-- Do not claim completion if any touched layer lacks artifacts, evidence, or gate status.
-
-## Host Adapter Rule
-
-Host-specific wiring must stay outside this file.
-
-- Claude Code wiring: `adapters/claude-code/assembly.md`
-- Claude Code host boundary: `adapters/claude-code/host-map.md`
-- Other hosts must provide their own adapter entry without weakening the canonical method
-
-## Minimal Host-Facing Prompt
-
-```md
-Run the Harness Engineering workflow.
-
-Before implementation:
-
-1. classify mode: bootstrap or maintenance
-2. choose the smallest valid start layer
-3. read only the required canonical references
-4. do not cross a layer gate without evidence
-5. if assumptions fail, roll back minimally
-6. re-validate from the rollback target forward
-7. close with touched layers, evidence pointers, and final operation state
-```
+- Copy `REQUIRED-EXECUTION-RECORD.template.md` when a touched layer needs an execution record; keep the template at the bundle root because it is a canonical operator-facing artifact rather than generated output.
+- After changing bundle structure or routing, and before synchronizing an installed copy, run `python scripts/validate_harness_skill.py <bundle-root>` using `scripts/validate_harness_skill.py`.
+- For bundle-quality work, use `evals/contract-invariants.json` through `scripts/contract_consistency.py`, validate recorded host outputs with `scripts/behavior_evals.py`, and generate review evidence with `scripts/render_skill_review.py`. Missing host output remains `not-run`; static checks never prove live behavior.
+- Do not ship generated caches such as `__pycache__/` or `*.pyc` files.

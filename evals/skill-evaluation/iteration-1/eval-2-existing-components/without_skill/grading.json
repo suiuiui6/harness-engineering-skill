@@ -42,9 +42,9 @@
   },
   "eval_feedback": {
     "suggestions": [
-      "响应缺少对开发流程中 planner/coder/reviewer 三Agent协作模式的描述，这是驾驭工程方法论中Layer 7(前后端施工联调)的核心实践，建议在响应中补充此部分",
-      "文档分层编号(4层)与驾驭工程8层编号体系存在偏差，建议统一使用驾驭工程的官方Layer编号以避免混淆"
+      "响应缺少对开发流程中 planner/coder/reviewer 三Agent协作模式的描述，这是harness-engineering方法论中Layer 7(前后端施工联调)的核心实践，建议在响应中补充此部分",
+      "文档分层编号(4层)与harness-engineering8层编号体系存在偏差，建议统一使用harness-engineering的官方Layer编号以避免混淆"
     ],
-    "overall": "响应在项目盘点、规范文档规划、目录结构确立等方面表现完整，符合驾驭工程方法论中能力边界摸底(Layer 0-1)、规范文档沉淀(Layer 3)、产品蓝图与API规范(Layer 5)、项目规范确立(Layer 6)的核心要求。唯一的缺失是未提及 planner/coder/reviewer 三Agent协作流程，这对应驾驭工程Layer 7的前后端施工联调环节。整体通过率80%。"
+    "overall": "响应在项目盘点、规范文档规划、目录结构确立等方面表现完整，符合harness-engineering方法论中能力边界摸底(Layer 0-1)、规范文档沉淀(Layer 3)、产品蓝图与API规范(Layer 5)、项目规范确立(Layer 6)的核心要求。唯一的缺失是未提及 planner/coder/reviewer 三Agent协作流程，这对应harness-engineeringLayer 7的前后端施工联调环节。整体通过率80%。"
   }
 }

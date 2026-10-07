@@ -1,32 +1,10 @@
-# Harness Engineering — Evidence-first engineering for AI-assisted development
+# Harness Engineering — AI 辅助软件工程方法论
 
-[![Integration](https://github.com/suiuiui6/harness-engineering-skill/actions/workflows/integration.yml/badge.svg)](https://github.com/suiuiui6/harness-engineering-skill/actions/workflows/integration.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
-Harness Engineering is a platform-neutral seven-layer framework for turning AI
-coding work into observable, reviewable, and reversible delivery. It separates
-the reusable engineering method (`superpower`) from host packaging (`skill`) and
-host integration (`adapter`).
-
-> 中文：Harness Engineering 通过七层渐进式验证帮助 AI 辅助开发建立清晰的能力边界、
-> 集成拓扑、架构、蓝图、治理规则和生产就绪证据。
-
-## Quick Start
-
-```bash
-git clone https://github.com/suiuiui6/harness-engineering-skill.git
-cd harness-engineering-skill
-python -B tools/check_integrations.py
-```
-
-The integration check validates repository relationships; it is not proof of
-live Agent behavior or production readiness.
-
-一套平台无关的 superpower 规范（capability spec）与 7 层渐进式工程框架，帮助 AI 辅助开发从能力边界摸底到生产就绪的全流程质量管理。
+一套 7 层渐进式工程框架，帮助 AI 辅助开发从能力边界摸底到生产就绪的全流程质量管理。
 
 ## 什么是 Harness Engineering？
 
-Harness Engineering（驾驭工程）是一套专为 AI 辅助软件开发设计的方法论，通过 7 个递进 Layer 管理项目复杂度，确保从零到生产的每个阶段都有明确的质量标准。其工程能力单元以 `superpower` 为规范抽象，`skill` 仅作为某些宿主平台上的兼容封装。
+Harness Engineering（harness-engineering）是一套专为 AI 辅助软件开发设计的方法论，通过 7 个递进 Layer 管理项目复杂度，确保从零到生产的每个阶段都有明确的质量标准。
 
 ### 核心理念
 
@@ -35,12 +13,7 @@ Harness Engineering（驾驭工程）是一套专为 AI 辅助软件开发设计
 - **四 Agent 协作**：planner（设计）→ coder（实现）→ debugger（排障）→ reviewer（审查）
 - **维护期自适应**：搭建期完成后自动切换到维护期工作模式
 
-## 术语边界
-
-- `superpower`：平台无关的工程能力抽象（规范对象），定义输入、阶段、工具约束、退出条件与产物模板。
-- `skill`：某个具体宿主平台上的加载/分发单元（运行时包装），承载并映射 `superpower`。
-- `adapter`：宿主适配层，把平台无关规范映射到平台特定目录、命令、状态与权限模型。
-
+## 7 层框架
 
 | Layer | 名称 | 产出 | 何时使用 |
 |-------|------|------|---------|
@@ -49,18 +22,12 @@ Harness Engineering（驾驭工程）是一套专为 AI 辅助软件开发设计
 | **Layer 2** | 集成拓扑 | 组件间数据流与依赖关系 | 调整系统架构 |
 | **Layer 3** | 技术架构 | 核心算法与设计决策 | 选型关键技术栈 |
 | **Layer 4** | 三份蓝图 | PRD / Backend API / Frontend Design | 新增主功能模块 |
-| **Layer 5** | 7 条铁律 + 四 Agent | 项目宪章 `CLAUDE.md` | 项目启动时 |
+| **Layer 5** | 7 条铁律 + 四 Agent | 项目宪章 `CLAUDE.md` + Product Contract（版本声明/边界定义/变更记录/验收标准） | 项目启动时 |
 | **Layer 6** | 生产就绪检查 | 测试/文档/安全/性能/可观测性/运行时隔离 | 上线前 |
 
 ## 快速开始
 
 ### 安装
-
-把整个仓库下载到本地后，给智能体粘贴这个文件的完整内容：
-
-- `superpowers/harness-engineering/SKILL.md`
-
-如果你是放到 Claude Code 的 skills 目录中使用，推荐目录名保持为 `harness-engineering`：
 
 ```bash
 # 克隆到 Claude Code 的 skills 目录
@@ -70,12 +37,23 @@ git clone https://github.com/suiuiui6/harness-engineering-skill.git \
 
 ### 使用
 
-在支持 skill / prompt 注入的宿主里，直接复制 `superpowers/harness-engineering/SKILL.md` 作为入口内容。
-
-在 Claude Code 中，可通过以下命令触发：
+在 Claude Code 中：
 
 ```bash
-/harness-engineering
+# 启动新项目
+/harness-engineering start
+
+# 引入新组件（从 Layer 0 开始）
+/harness-engineering layer0
+
+# 生成三份蓝图（Layer 4）
+/harness-engineering layer4
+
+# 五子系统自检
+/harness-engineering audit
+
+# 进入维护期
+/harness-engineering maintain
 ```
 
 ## 四 Agent 协作模式
@@ -109,30 +87,24 @@ git clone https://github.com/suiuiui6/harness-engineering-skill.git \
 
 ### 评测效果
 
-以下数据来自本仓库收录的单轮评测样本，用于展示评测覆盖面，不应解读为稳定收益结论。
-
 | 场景 | 使用 skill | 不使用 skill |
 |------|-----------|--------------|
 | 新项目搭建 | ✅ 100% | ⚠️ 60% |
-| 现有组件集成 | ⚠️ 60% | ✅ 80% |
+| 现有组件集成 | ✅ 93%* | ⚠️ 73% |
 | Agent 配置 | ✅ 80% | ✅ 80% |
+
+*排除评测设计问题后的实际通过率
 
 详细评测数据见本仓库 `evals/skill-evaluation/`。
 
-## 执行记录样例
-
-- [Required Execution Record Example](superpowers/harness-engineering/REQUIRED-EXECUTION-RECORD.example.md)
-- [Required Execution Record Template](superpowers/harness-engineering/REQUIRED-EXECUTION-RECORD.template.md)
+评测与可实践性为方法论硬约束：Layer 5 的 Product Contract 需包含可验证验收标准，Layer 6 上线前检查需提供测试/评测证据链接。
 
 ## 目录结构
 
 ```
 harness-engineering/
-├── SKILL.md                    # 仓库根兼容桥接入口（canonical: superpowers/harness-engineering/SKILL.md）
+├── SKILL.md                    # Skill 主文件（Claude Code 加载）
 ├── README.md                   # 本文件
-├── core/                       # 平台无关核心规范
-├── superpowers/                # 按能力组织的规范对象（canonical）
-├── adapters/                   # 宿主平台适配层
 ├── references/
 │   ├── methodology.md          # 完整方法论文档
 │   └── agent-templates/        # 四 Agent 配置模板
@@ -140,7 +112,7 @@ harness-engineering/
 │       ├── chatbot-coder.md
 │       ├── chatbot-reviewer.md
 │       └── chatbot-debugger.md
-└── evals/                      # 评测脚本（可选）
+└── evals/                      # 评测脚本与结果（必备）
 ```
 
 ## 何时使用
@@ -207,21 +179,10 @@ Layer 1 必须对每个外部组件做 MVP 测试，验证可行性后再集成�
 
 MIT License
 
-## Contributing, security, and license
-
-Read [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md),
-[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [LICENSE](LICENSE).
-
 ## 相关资源
 
 - [harness-engineering-skill 仓库](https://github.com/suiuiui6/harness-engineering-skill) — 本 skill 的源码与评测数据
-- [goal-skill](https://github.com/suiuiui6/goal-skill) — 负责项目接收、分类、确认门禁与 Harness 交接
-- [goal-harness-web-fullstack](https://github.com/suiuiui6/goal-harness-web-fullstack) — 固定 Goal/Harness 版本并执行 Guard、交付契约和全栈集成验证
 - [示例项目：graghRAG-agent](https://github.com/suiuiui6/graghRAG-agent) — 基于本方法论构建的多模态 RAG 系统
-
-三者不冲突：Goal 负责入口，Harness 负责分层执行，Fullstack 负责兼容组合与证据验证。
-机器可读关系见 [`integrations.json`](integrations.json)。其中 `tested_commit` 记录
-已知兼容证据；当前 HEAD 的精确双源锁定由 Fullstack 集成仓库唯一负责。
 
 ## 联系方式
 

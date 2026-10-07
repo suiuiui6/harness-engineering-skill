@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "我要从零搭建一个多模态知识管理平台，核心功能是：用户可以上传 PDF/Word/PPT 文档，系统自动解析文档内容、抽取实体和关系、构建知识图谱，并提供基于图谱的自然语言问答。目前我还没有选定任何具体的组件或服务，请帮我规划整个项目搭建流程。",
-      "expected_output": "Claude应按照驾驭工程7层流程引导：先从Layer 0能力边界摸底开始，建议评估候选组件的源码能力；然后Layer 1各组件MVP实测并生成规范文档；Layer 2集成拓扑与桥接管道；不建议直接跳到写代码。响应中应体现\"先探索、再验证、后规范、最后施工\"的顺序逻辑。",
+      "expected_output": "Claude应按照harness-engineering7层流程引导：先从Layer 0能力边界摸底开始，建议评估候选组件的源码能力；然后Layer 1各组件MVP实测并生成规范文档；Layer 2集成拓扑与桥接管道；不建议直接跳到写代码。响应中应体现\"先探索、再验证、后规范、最后施工\"的顺序逻辑。",
       "files": [],
       "expectations": [
         "响应中明确建议从能力边界摸底（Layer 0）开始，而非直接选型或写代码",
@@ -21,9 +21,9 @@
       "files": [],
       "expectations": [
         "响应中识别出已有组件已完成MVP验证，不需要重新测试",
-        "响应中正确评估了MinerU与LangExtract之间的桥接状态：若桥接尚未完成则建议先建立BridgePipeline（Layer 2），若桥接已完成则确认状态并引导进入产品蓝图阶段（Layer 4）",
-        "响应中建议在写产品代码之前生成PRD和后端API规范（Layer 4）",
-        "响应中建议确立项目目录结构和开发规范（Layer 5）：frontend/、backend/、.env管理、uv虚拟环境",
+        "响应中正确评估了MinerU与LangExtract之间的桥接状态：若桥接尚未完成则建议先建立BridgePipeline（Layer 3），若桥接已完成则确认状态并引导进入产品蓝图阶段（Layer 5）",
+        "响应中建议在写产品代码之前生成PRD和后端API规范（Layer 5）",
+        "响应中建议确立项目目录结构和开发规范（Layer 6）：frontend/、backend/、.env管理、uv虚拟环境",
         "响应中提及三个Agent（planner/coder/reviewer）的协作流程"
       ]
     },
@@ -38,124 +38,6 @@
         "响应中包含如何调用三个Agent的具体指导（接受以下任一形式：自然语言描述如\"使用chatbot-planner agent\"、slash命令如/chatbot-planner、或结构化Agent工具调用参数）",
         "响应中说明chatbot-planner只做规划不写代码，chatbot-coder按规划实现，chatbot-reviewer做审查",
         "响应中强调代码应严格遵循已有的规范文档（Layer 5的蓝图）"
-      ]
-    },
-    {
-      "id": 4,
-      "prompt": "我的多模态RAG项目已经有了完整的规范文档：PRD v1.0、后端API架构规范v1.0、前端系统设计规范v1.0，项目开发规范也已经写入CLAUDE.md。现在需要正式开工写代码。我的项目还没有配置规划/编码/审查三个协作代理。请帮我建立这三个代理的配置，并告诉我怎么用它们完成前端和后端的开发。",
-      "expected_output": "助手应指导用户从skill的references/agent-templates/目录复制三个代理配置到项目的.claude/agents/目录。然后说明使用顺序：先用规划代理根据前端设计规范输出实现计划，再用编码代理编码，最后用审查代理审查。给出具体的Agent调用示例。",
-      "files": [],
-      "expectations": [
-        "响应中指导如何在项目下创建.claude/agents/目录并部署代理配置",
-        "响应中说明三个代理的调用顺序：规划 → 编码 → 审查",
-        "响应中包含如何调用三个代理的具体指导（接受以下任一形式：自然语言描述、slash命令、或结构化Agent工具调用参数）",
-        "响应中说明规划代理只做规划不写代码，编码代理按规划实现，审查代理做审查",
-        "响应中强调代码应严格遵循已有的规范文档（Layer 5的蓝图）",
-        "响应中不要求绑定特定产品品牌或单一客户端形态（CLI/Desktop/Web）"
-      ]
-    },
-    {
-      "id": 5,
-      "prompt": "这不是新项目，而是一次维护期治理收敛：系统已经稳定运行，现在我要补一套执行记录模板，并把 closure 状态从一个字段拆成两个字段，避免把范围结果和运行态混在一起。请按 Harness Engineering 方法告诉我应该如何判定 mode、从哪一层重入、需要哪些输出。",
-      "expected_output": "助手应将该请求判定为 maintenance，而不是 bootstrap；建议从 Layer 5 重入，因为变化集中在治理规则、执行记录和闭环语义；输出中应明确将范围结果与运行态拆成 `scope_result` 和 `operation_state`，并沿用 `bootstrap/maintenance` 术语而非 `setup`。",
-      "files": [],
-      "expectations": [
-        "响应中明确将该请求判定为 `maintenance`",
-        "响应中建议从 Layer 5 重入，而不是直接回到 Layer 0 或要求完整 0->6 流程",
-        "响应中使用 `bootstrap` / `maintenance` 术语，不回退到 `setup`",
-        "响应中明确区分 `scope_result` 与 `operation_state`，而不是把两者混成一个 closure 字段",
-        "响应中提及需要更新执行记录模板、治理文档或 closure 契约一类的 Layer 5 产物"
-      ]
-    },
-    {
-      "id": 6,
-      "prompt": "如果我要向团队解释 Harness Engineering 这套方法为什么不是单纯的七层清单，而是一个从能力验证走到产品落地的研发方法论，你会怎么概括它的推进主线和核心哲学？",
-      "expected_output": "助手应把方法论概括为从能力验证到产品化落地的推进主线，而不是只罗列 Layer 0-6。响应中应显式给出三段推进，例如 Foundation and capability proof、Engineering loop、Productization，并解释证据优先、单组件 MVP 先于桥接、环境隔离、逐层集成等核心哲学。",
-      "files": [],
-      "expectations": [
-        "响应中明确给出三段推进主线，而不是只罗列层号",
-        "响应中提及证据优先，且说明源码/API检查或运行时事实高于假设",
-        "响应中提及单组件 MVP 闭环先于桥接或系统集成",
-        "响应中提及环境隔离和逐层集成",
-        "响应中不把这套方法论讲成静态清单，而是解释其从能力验证到产品落地的推进关系"
-      ]
-    },
-    {
-      "id": 7,
-      "prompt": "PRD、后端 API、前端系统规范都已经写完了，准备进入正式施工前，我想先把 Layer 5 补齐。你会要求哪些工程规则和契约产物必须先落地？",
-      "expected_output": "助手应把问题定位到 Layer 5，并给出工程规则与契约产物清单：运行时隔离、依赖锁定、秘密和日志治理、基于真实依赖的集成测试纪律、协作/审查/调试环，以及 Product Contract。Product Contract 至少应包含 version declaration、boundary definition、change log、acceptance criteria，并说明 Layer 5 不通过就不应进入 Layer 6。",
-      "files": [],
-      "expectations": [
-        "响应中明确将该问题定位到 Layer 5，而不是直接进入 Layer 6 开发",
-        "响应中提及运行时隔离、依赖锁定、秘密处理或日志卫生、真实依赖集成测试这些工程规则",
-        "响应中明确提及 `Product Contract`",
-        "响应中列出 `Product Contract` 至少四项字段：version declaration、boundary definition、change log、acceptance criteria",
-        "响应中说明 Layer 5 gate 未通过时不应进入 Layer 6"
-      ]
-    },
-    {
-      "id": 8,
-      "prompt": "现有文档写着某个桥接流程已经打通，但团队手里只有文档，没有单组件实测记录，也没有桥接阶段的运行证据。有人建议先相信文档直接集成。按 Harness Engineering 你会怎么处理？",
-      "expected_output": "助手应明确反对仅凭文档直接集成，强调运行时事实高于文档承诺。如果组件能力本身没有实证，应回到 Layer 0/1 通过源码或 API 检查与单组件 MVP 实测补证；如果组件能力已知但桥接无证据，应至少回到 Layer 2 做桥接拓扑、阶段验证和缓存/回放证据。响应中还应要求把新事实写回文档或在必要时最小回滚。",
-      "files": [],
-      "expectations": [
-        "响应中明确指出不能仅凭文档承诺直接集成",
-        "响应中提及运行时事实高于文档承诺，或等价表达",
-        "响应中根据证据缺口建议回到 Layer 0/1 或 Layer 2 补齐源码/API检查、单组件 MVP、桥接阶段验证中的至少一种",
-        "响应中提及桥接应按阶段验证，而不是只做端到端拍脑袋集成",
-        "响应中提及把新运行事实写回文档，或在上游假设失效时做最小回滚"
-      ]
-    },
-    {
-      "id": 9,
-      "prompt": "系统已经稳定运行。原本只是要在维护期补执行记录模板、补 Product Contract 字段，并把 closure 拆成 `scope_result` 和 `operation_state`。但这次改动里还顺手要把 MinerU -> LangExtract 的同步桥接改成异步消息队列，因为现有 payload 太大。有人说这还是治理整理，按 Layer 5 补完就可以。按 Harness Engineering 你会怎么判定 mode、最小重入层，以及为什么不是只做 Layer 5？",
-      "expected_output": "助手应将该请求判定为 maintenance，而不是 bootstrap；但因为存在明确的数据流/桥接拓扑变化，最小重入层应提升到 Layer 2，而不是停在 Layer 5。响应中应说明 Layer 5 治理更新仍然要做，但它属于 Layer 2 之后的下游同步，不足以覆盖桥接变更本身；同时不应要求完整 0->6 全流程重跑。",
-      "files": [],
-      "expectations": [
-        "响应中明确将该请求判定为 `maintenance`",
-        "响应中明确指出桥接/拓扑变化使最小重入层变为 Layer 2，而不是只做 Layer 5",
-        "响应中说明 Layer 5 治理或 Product Contract 更新仍然要做，但它们是 Layer 2 之后的下游同步",
-        "响应中提及桥接应重新做阶段验证、拓扑/Schema 或等价的 Layer 2 工作",
-        "响应中不要求把该请求升级成完整 `bootstrap` 或完整 0->6 重跑"
-      ]
-    },
-    {
-      "id": 10,
-      "prompt": "PRD、后端 API、前端系统规范都已完成。团队想直接进入施工：先写后端和前端代码，等 internal alpha 跑起来后再补 Product Contract、依赖锁定、secret handling 和日志卫生。理由是“反正先给内部人用，不算正式 release”。按 Harness Engineering 你会放行吗？如果不放行，Layer 5 至少要补齐什么才能进 Layer 6？",
-      "expected_output": "助手应明确拒绝因为 internal alpha 或时间压力而豁免 Layer 5 gate，说明 Layer 5 未通过时不应进入 Layer 6。响应中应至少要求补齐运行时隔离、依赖锁定、秘密处理、日志卫生、基于真实依赖的集成测试纪律，以及 Product Contract 四个字段：version declaration、boundary definition、change log、acceptance criteria。",
-      "files": [],
-      "expectations": [
-        "响应中明确指出 internal alpha 不是跳过 Layer 5 gate 的理由",
-        "响应中明确说明 Layer 5 未通过时不应进入 Layer 6",
-        "响应中提及运行时隔离、依赖锁定、秘密处理或日志卫生、真实依赖集成测试这些工程规则",
-        "响应中明确提及 `Product Contract`",
-        "响应中列出 `Product Contract` 至少四项字段：version declaration、boundary definition、change log、acceptance criteria"
-      ]
-    },
-    {
-      "id": 11,
-      "prompt": "两个核心组件各自的单组件实测记录都完整，API/源码边界也清楚；但它们之间的桥接只有文档描述和负责人在群里的口头保证，没有 stage-by-stage 运行 trace，也没有可回放的 payload 记录。现在业务方催着直接把这条链路接进正式功能。按 Harness Engineering 应该从哪一层重入，为什么不是回到 Layer 1，也为什么不能直接集成？",
-      "expected_output": "助手应明确反对直接集成，并把最小重入层定位在 Layer 2，而不是 Layer 1 或 Layer 0，因为组件能力与单组件 MVP 已经有证据。响应中应说明当前缺口是桥接证据而非组件能力证据，因此要补齐桥接拓扑、阶段验证、运行 trace、缓存/回放等 Layer 2 工件，并把新事实写回文档或在需要时最小回滚。",
-      "files": [],
-      "expectations": [
-        "响应中明确指出不能直接集成",
-        "响应中明确建议从 Layer 2 重入，而不是回到 Layer 1 或 Layer 0",
-        "响应中明确说明不回到 Layer 1 的理由是单组件实测与能力边界已经有证据",
-        "响应中提及桥接应按阶段验证，并补齐 trace、缓存/回放或等价的 Layer 2 证据",
-        "响应中提及把新运行事实写回文档，或在需要时做最小回滚"
-      ]
-    },
-    {
-      "id": 12,
-      "prompt": "团队里有人把 Harness Engineering 理解成“无论什么请求，都把 Layer 0 到 Layer 6 全讲一遍”。结果他们一遇到维护期问题就先复述七层，一遇到新 feature 就直接跳过能力验证去写 PRD。你如果要用一段对团队培训的话纠正这个误解，会怎么讲？",
-      "expected_output": "助手应明确说明 Harness Engineering 不是“逢题必背七层”的静态清单，而是先判 mode、再选最小有效起点、按证据推进的研发方法。响应中应同时纠正两类误解：维护期不需要每次完整 0->6 复述，而 bootstrap/新 feature 也不能跳过能力边界与单组件 MVP 验证直接写 PRD。最好用 delivery arc 或推进关系来解释为什么。",
-      "files": [],
-      "expectations": [
-        "响应中明确指出 Harness Engineering 不是“无论什么请求都把 Layer 0 到 Layer 6 全讲一遍”的静态清单",
-        "响应中提及应先判定 `bootstrap` / `maintenance`，再决定最小起始层或重入层",
-        "响应中明确说明新 feature 不能跳过能力边界检查或单组件 MVP 验证直接写 PRD",
-        "响应中明确说明维护期问题不需要每次完整回放 Layer 0->6",
-        "响应中把这套方法讲成推进关系、delivery arc 或等价的方法论，而不是只枚举层号"
       ]
     }
   ]

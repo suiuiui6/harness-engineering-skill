@@ -1,0 +1,12 @@
+{
+  "eval_id": 12,
+  "eval_name": "anti-checklist-explanation",
+  "prompt": "团队里有人把 Harness Engineering 理解成“无论什么请求，都把 Layer 0 到 Layer 6 全讲一遍”。结果他们一遇到维护期问题就先复述七层，一遇到新 feature 就直接跳过能力验证去写 PRD。你如果要用一段对团队培训的话纠正这个误解，会怎么讲？",
+  "assertions": [
+    "响应中明确指出 Harness Engineering 不是“无论什么请求都把 Layer 0 到 Layer 6 全讲一遍”的静态清单",
+    "响应中提及应先判定 `bootstrap` / `maintenance`，再决定最小起始层或重入层",
+    "响应中明确说明新 feature 不能跳过能力边界检查或单组件 MVP 验证直接写 PRD",
+    "响应中明确说明维护期问题不需要每次完整回放 Layer 0->6",
+    "响应中把这套方法讲成推进关系、delivery arc 或等价的方法论，而不是只枚举层号"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "eval_id": 10,
+  "eval_name": "no-layer5-gate-waiver",
+  "prompt": "PRD、后端 API、前端系统规范都已完成。团队想直接进入施工：先写后端和前端代码，等 internal alpha 跑起来后再补 Product Contract、依赖锁定、secret handling 和日志卫生。理由是“反正先给内部人用，不算正式 release”。按 Harness Engineering 你会放行吗？如果不放行，Layer 5 至少要补齐什么才能进 Layer 6？",
+  "assertions": [
+    "响应中明确指出 internal alpha 不是跳过 Layer 5 gate 的理由",
+    "响应中明确说明 Layer 5 未通过时不应进入 Layer 6",
+    "响应中提及运行时隔离、依赖锁定、秘密处理或日志卫生、真实依赖集成测试这些工程规则",
+    "响应中明确提及 `Product Contract`",
+    "响应中列出 `Product Contract` 至少四项字段：version declaration、boundary definition、change log、acceptance criteria"
+  ]
+}

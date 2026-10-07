@@ -1,0 +1,59 @@
+﻿{
+    "expectations":  [
+                         {
+                             "text":  "响应中明确指出 Harness Engineering 不是“无论什么请求都把 Layer 0 到 Layer 6 全讲一遍”的静态清单",
+                             "passed":  true,
+                             "evidence":  "The title and opening paragraphs reject `七层念经` and describe HE as a control framework instead of a ritual."
+                         },
+                         {
+                             "text":  "响应中提及应先判定 `bootstrap` / `maintenance`，再决定最小起始层或重入层",
+                             "passed":  true,
+                             "evidence":  "It explicitly says the entry question is `bootstrap 还是 maintenance` and then to select the smallest impacted layer."
+                         },
+                         {
+                             "text":  "响应中明确说明新 feature 不能跳过能力边界检查或单组件 MVP 验证直接写 PRD",
+                             "passed":  true,
+                             "evidence":  "The second half explains that jumping to Layer 4 PRD work without Layer 0-1 proof violates the method."
+                         },
+                         {
+                             "text":  "响应中明确说明维护期问题不需要每次完整回放 Layer 0-\u003e6",
+                             "passed":  true,
+                             "evidence":  "The maintenance example says a local bug under stable contracts should start at Layer 6 instead of replaying Layer 0→6."
+                         },
+                         {
+                             "text":  "响应中把这套方法讲成推进关系、delivery arc 或等价的方法论，而不是只枚举层号",
+                             "passed":  true,
+                             "evidence":  "It reframes HE as `证据驱动的范围控制` and a decision/control framework rather than a checklist."
+                         }
+                     ],
+    "summary":  {
+                    "passed":  5,
+                    "failed":  0,
+                    "total":  5,
+                    "pass_rate":  1
+                },
+    "timing":  {
+                   "executor_duration_seconds":  86.3,
+                   "total_duration_seconds":  86.3
+               },
+    "claims":  [
+
+               ],
+    "user_notes_summary":  {
+                               "uncertainties":  [
+
+                                                 ],
+                               "needs_review":  [
+
+                                                ],
+                               "workarounds":  [
+
+                                               ]
+                           },
+    "eval_feedback":  {
+                          "suggestions":  [
+
+                                          ],
+                          "overall":  "All expectations passed. The baseline answer is very explicit and pedagogical, though much more verbose than the with-skill version."
+                      }
+}

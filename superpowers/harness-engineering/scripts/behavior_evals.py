@@ -28,25 +28,6 @@ NEGATION_TOKENS = {
     "shouldn't",
     "mustn't",
 }
-CHINESE_NEGATION_PREFIXES = (
-    "不需要",
-    "不应",
-    "不需",
-    "禁止",
-    "不能",
-    "没有",
-    "无需",
-    "不要",
-    "不是",
-    "未",
-    "没",
-    "不",
-    "无",
-)
-NEGATION_SUFFIX_GAP_PATTERN = re.compile(r"[\s\u3000:：,，、]*$")
-CHINESE_NEGATION_PATTERN = re.compile(
-    rf"(?:{'|'.join(map(re.escape, CHINESE_NEGATION_PREFIXES))})(?:[\u3400-\u9fff]\s*){{0,8}}$"
-)
 
 
 def _load_json(path: Path, errors: list[str], label: str) -> object | None:
@@ -86,29 +67,16 @@ def _is_negated(tokens: list[str], start_index: int) -> bool:
     return any(token in NEGATION_TOKENS for token in tokens[window_start:start_index])
 
 
-def _is_text_negated(response_text: str, start_index: int) -> bool:
-    context = response_text[:start_index]
-    prefix_context = NEGATION_SUFFIX_GAP_PATTERN.sub("", context)
-    if CHINESE_NEGATION_PATTERN.search(prefix_context):
-        return True
-
-    context_tokens = ASCII_TOKEN_PATTERN.findall(context)
-    return bool(context_tokens) and context_tokens[-1] in NEGATION_TOKENS
-
-
-def _matches_ascii_term(response_text: str, response_tokens: list[str], term: str) -> bool:
+def _matches_ascii_term(response_tokens: list[str], term: str) -> bool:
     term_tokens = ASCII_TOKEN_PATTERN.findall(term.casefold())
     if not term_tokens:
         return False
 
-    token_spans = [match.span() for match in ASCII_TOKEN_PATTERN.finditer(response_text)]
     limit = len(response_tokens) - len(term_tokens) + 1
     for start_index in range(max(0, limit)):
         if response_tokens[start_index : start_index + len(term_tokens)] != term_tokens:
             continue
-        if not _is_negated(response_tokens, start_index) and not _is_text_negated(
-            response_text, token_spans[start_index][0]
-        ):
+        if not _is_negated(response_tokens, start_index):
             return True
     return False
 
@@ -118,14 +86,9 @@ def _matches_term(folded_response: str, response_tokens: list[str], term: str) -
     if not folded_term:
         return False
     if CJK_PATTERN.search(folded_term):
-        start_index = folded_response.find(folded_term)
-        while start_index != -1:
-            if not _is_text_negated(folded_response, start_index):
-                return True
-            start_index = folded_response.find(folded_term, start_index + 1)
-        return False
+        return folded_term in folded_response
     if ASCII_TOKEN_PATTERN.search(folded_term):
-        return _matches_ascii_term(folded_response, response_tokens, folded_term)
+        return _matches_ascii_term(response_tokens, folded_term)
     return folded_term in folded_response
 
 

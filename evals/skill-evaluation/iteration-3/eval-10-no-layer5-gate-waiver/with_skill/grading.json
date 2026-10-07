@@ -1,0 +1,59 @@
+﻿{
+    "expectations":  [
+                         {
+                             "text":  "响应中明确指出 internal alpha 不是跳过 Layer 5 gate 的理由",
+                             "passed":  true,
+                             "evidence":  "The rationale explicitly says `Internal alpha ... 不是豁免理由`."
+                         },
+                         {
+                             "text":  "响应中明确说明 Layer 5 未通过时不应进入 Layer 6",
+                             "passed":  true,
+                             "evidence":  "The answer opens with `Layer 5 未完成，不得进入 Layer 6 construction`."
+                         },
+                         {
+                             "text":  "响应中提及运行时隔离、依赖锁定、秘密处理或日志卫生、真实依赖集成测试这些工程规则",
+                             "passed":  true,
+                             "evidence":  "It lists dependency lock, secret handling, log hygiene, runtime isolation, and real-dependency integration testing as required Layer 5 content."
+                         },
+                         {
+                             "text":  "响应中明确提及 `Product Contract`",
+                             "passed":  true,
+                             "evidence":  "The first required item in the completion table is explicitly named `Product Contract`."
+                         },
+                         {
+                             "text":  "响应中列出 `Product Contract` 至少四项字段：version declaration、boundary definition、change log、acceptance criteria",
+                             "passed":  true,
+                             "evidence":  "The response lists `版本声明、边界定义、变更日志、验收标准` as the minimum Product Contract fields."
+                         }
+                     ],
+    "summary":  {
+                    "passed":  5,
+                    "failed":  0,
+                    "total":  5,
+                    "pass_rate":  1
+                },
+    "timing":  {
+                   "executor_duration_seconds":  16.1,
+                   "total_duration_seconds":  16.1
+               },
+    "claims":  [
+
+               ],
+    "user_notes_summary":  {
+                               "uncertainties":  [
+
+                                                 ],
+                               "needs_review":  [
+
+                                                ],
+                               "workarounds":  [
+
+                                               ]
+                           },
+    "eval_feedback":  {
+                          "suggestions":  [
+
+                                          ],
+                          "overall":  "All expectations passed. The answer cleanly refuses the waiver and enumerates the minimum Layer 5 gate content before Layer 6."
+                      }
+}

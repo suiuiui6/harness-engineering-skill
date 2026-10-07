@@ -2,7 +2,15 @@
 
 ## Scope
 
-Harness Engineering is a documentation-driven delivery method for project bootstrap and stabilization. It defines a strict Layer 0-6 sequence for build-up, then a maintenance-mode policy after go-live.
+Harness Engineering is a documentation-driven delivery method for project bootstrap and stabilization. The canonical capability specification lives in `superpowers/*`; `core/*` defines a strict Layer 0-6 sequence for build-up and maintenance-mode policy after go-live.
+
+## Entry Classification
+
+Classify the request before choosing a layer path.
+
+- Bootstrap mode: new superpower construction, core component replacement, main architecture rebuild, or a net-new primary workflow.
+- Maintenance mode: localized feature work, bug fixes, focused refactors, or partial superpower/spec updates on an already stable system.
+- Default rule: if the system is already stable and the requested change does not invalidate core assumptions, stay in maintenance mode and re-enter only at the smallest necessary layer.
 
 ## Layer Sequence
 
@@ -58,6 +66,8 @@ Only move to the next layer after current layer pass criteria are met.
 - Project-wide engineering rules are established and discoverable.
 - Environment isolation, secret handling, testing discipline, dependency lock, and security scanning are defined.
 - Multi-agent collaboration roles and boundaries are defined.
+- Product Contract is complete and linked in Layer 5 outputs: version declaration, boundary definition, change log, and acceptance criteria.
+- If any Product Contract field is missing, Layer 5 is marked not passed and must be backfilled before moving to Layer 6.
 
 ### Layer 6 Pass
 
@@ -100,6 +110,12 @@ Drop:
 - mandatory full 0->6 sequence for every small change
 - full blueprint rollback for localized fixes unless systemic mismatch is found
 - global document refresh when only local specs are affected
+
+Apply:
+
+- classify whether the change is bootstrap-scale or maintenance-scale before reopening layers
+- for maintenance work, start from the smallest affected layer instead of Layer 0
+- only escalate to an earlier layer when current evidence shows an upstream assumption is invalid
 
 ## Re-entry Triggers
 

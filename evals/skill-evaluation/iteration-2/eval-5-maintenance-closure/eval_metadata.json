@@ -1,0 +1,12 @@
+{
+  "eval_id": 5,
+  "eval_name": "maintenance-closure",
+  "prompt": "这不是新项目，而是一次维护期治理收敛：系统已经稳定运行，现在我要补一套执行记录模板，并把 closure 状态从一个字段拆成两个字段，避免把范围结果和运行态混在一起。请按 Harness Engineering 方法告诉我应该如何判定 mode、从哪一层重入、需要哪些输出。",
+  "assertions": [
+    "响应中明确将该请求判定为 `maintenance`",
+    "响应中建议从 Layer 5 重入，而不是直接回到 Layer 0 或要求完整 0->6 流程",
+    "响应中使用 `bootstrap` / `maintenance` 术语，不回退到 `setup`",
+    "响应中明确区分 `scope_result` 与 `operation_state`，而不是把两者混成一个 closure 字段",
+    "响应中提及需要更新执行记录模板、治理文档或 closure 契约一类的 Layer 5 产物"
+  ]
+}

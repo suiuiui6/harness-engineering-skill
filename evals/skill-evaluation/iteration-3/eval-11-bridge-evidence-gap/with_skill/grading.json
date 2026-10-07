@@ -1,0 +1,62 @@
+﻿{
+    "expectations":  [
+                         {
+                             "text":  "响应中明确指出不能直接集成",
+                             "passed":  true,
+                             "evidence":  "The direct answer says `不能直接集成` because bridge evidence is missing."
+                         },
+                         {
+                             "text":  "响应中明确建议从 Layer 2 重入，而不是回到 Layer 1 或 Layer 0",
+                             "passed":  false,
+                             "evidence":  "The response clearly recommends `Layer 2` and explains why not Layer 1, but it never explicitly rules out Layer 0. This eval grades that omission strictly to preserve rollback-precision discrimination."
+                         },
+                         {
+                             "text":  "响应中明确说明不回到 Layer 1 的理由是单组件实测与能力边界已经有证据",
+                             "passed":  true,
+                             "evidence":  "It says the component-level proof is already complete and that rolling back to Layer 1 would be `过度回滚`."
+                         },
+                         {
+                             "text":  "响应中提及桥接应按阶段验证，并补齐 trace、缓存/回放或等价的 Layer 2 证据",
+                             "passed":  true,
+                             "evidence":  "The action list requires stage-by-stage bridge validation, runnable trace evidence, and replayable payload capture."
+                         },
+                         {
+                             "text":  "响应中提及把新运行事实写回文档，或在需要时做最小回滚",
+                             "passed":  true,
+                             "evidence":  "It says to `录制可回放 payload，写入 docs` and, if assumptions fail, `最小化回滚到 Layer 1 仅修复失败点`."
+                         }
+                     ],
+    "summary":  {
+                    "passed":  4,
+                    "failed":  1,
+                    "total":  5,
+                    "pass_rate":  0.8
+                },
+    "timing":  {
+                   "executor_duration_seconds":  12.3,
+                   "total_duration_seconds":  12.3
+               },
+    "claims":  [
+
+               ],
+    "user_notes_summary":  {
+                               "uncertainties":  [
+
+                                                 ],
+                               "needs_review":  [
+                                                    "Response implicitly excludes Layer 0 by choosing Layer 2, but it does not spell the Layer-0 non-reentry out directly."
+                                                ],
+                               "workarounds":  [
+
+                                               ]
+                           },
+    "eval_feedback":  {
+                          "suggestions":  [
+                                              {
+                                                  "assertion":  "响应中明确建议从 Layer 2 重入，而不是回到 Layer 1 或 Layer 0",
+                                                  "reason":  "To score full credit on this eval, the answer should explicitly say why Layer 0 stays closed, not just why Layer 1 stays closed."
+                                              }
+                                          ],
+                          "overall":  "One expectation failed on explicit rollback precision. The answer is directionally correct, but it leaves the Layer-0 non-reentry implicit instead of stating it outright."
+                      }
+}

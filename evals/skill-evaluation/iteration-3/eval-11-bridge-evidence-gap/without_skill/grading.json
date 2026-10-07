@@ -1,0 +1,59 @@
+﻿{
+    "expectations":  [
+                         {
+                             "text":  "响应中明确指出不能直接集成",
+                             "passed":  true,
+                             "evidence":  "The answer explicitly says the business request cannot be integrated directly because the Layer 2 gate is still open."
+                         },
+                         {
+                             "text":  "响应中明确建议从 Layer 2 重入，而不是回到 Layer 1 或 Layer 0",
+                             "passed":  true,
+                             "evidence":  "It says `应从 Layer 2 重入`, includes a dedicated `为什么不是 Layer 0` section, and keeps Layer 0-1 closed."
+                         },
+                         {
+                             "text":  "响应中明确说明不回到 Layer 1 的理由是单组件实测与能力边界已经有证据",
+                             "passed":  true,
+                             "evidence":  "It explains that the Layer 0 and Layer 1 assets remain valid because the component boundaries and isolated MVP proof already exist."
+                         },
+                         {
+                             "text":  "响应中提及桥接应按阶段验证，并补齐 trace、缓存/回放或等价的 Layer 2 证据",
+                             "passed":  true,
+                             "evidence":  "It requires schema definition, stage-by-stage validation, replayable payload recording, and reproducible bridge runs."
+                         },
+                         {
+                             "text":  "响应中提及把新运行事实写回文档，或在需要时做最小回滚",
+                             "passed":  true,
+                             "evidence":  "It quotes the minimal-rollback rule directly and frames the repair as filling the Layer 2 evidence gap rather than restarting from scratch."
+                         }
+                     ],
+    "summary":  {
+                    "passed":  5,
+                    "failed":  0,
+                    "total":  5,
+                    "pass_rate":  1
+                },
+    "timing":  {
+                   "executor_duration_seconds":  56.3,
+                   "total_duration_seconds":  56.3
+               },
+    "claims":  [
+
+               ],
+    "user_notes_summary":  {
+                               "uncertainties":  [
+
+                                                 ],
+                               "needs_review":  [
+
+                                                ],
+                               "workarounds":  [
+
+                                               ]
+                           },
+    "eval_feedback":  {
+                          "suggestions":  [
+
+                                          ],
+                          "overall":  "All expectations passed. This run is a good example of the kind of explicit rollback-boundary reasoning the new eval is trying to surface."
+                      }
+}

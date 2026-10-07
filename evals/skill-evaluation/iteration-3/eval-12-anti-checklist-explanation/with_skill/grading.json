@@ -1,0 +1,59 @@
+﻿{
+    "expectations":  [
+                         {
+                             "text":  "响应中明确指出 Harness Engineering 不是“无论什么请求都把 Layer 0 到 Layer 6 全讲一遍”的静态清单",
+                             "passed":  true,
+                             "evidence":  "The first line says `Harness Engineering 不是一套固定流程，是一套分诊逻辑`."
+                         },
+                         {
+                             "text":  "响应中提及应先判定 `bootstrap` / `maintenance`，再决定最小起始层或重入层",
+                             "passed":  true,
+                             "evidence":  "It explicitly says to classify maintenance vs bootstrap/new-feature first and then choose the minimum valid entry layer."
+                         },
+                         {
+                             "text":  "响应中明确说明新 feature 不能跳过能力边界检查或单组件 MVP 验证直接写 PRD",
+                             "passed":  true,
+                             "evidence":  "The answer says new feature or bootstrap work `绝不能跳过能力边界检查和单组件 MVP 验证` before blueprinting."
+                         },
+                         {
+                             "text":  "响应中明确说明维护期问题不需要每次完整回放 Layer 0-\u003e6",
+                             "passed":  true,
+                             "evidence":  "It says a localized maintenance change `根本不需要从 Layer 0 开始复述` and should enter near the changed scope."
+                         },
+                         {
+                             "text":  "响应中把这套方法讲成推进关系、delivery arc 或等价的方法论，而不是只枚举层号",
+                             "passed":  true,
+                             "evidence":  "The closing explanation frames the method as a delivery arc with `能力证明 / 工程循环 / 产品化` rather than a static list."
+                         }
+                     ],
+    "summary":  {
+                    "passed":  5,
+                    "failed":  0,
+                    "total":  5,
+                    "pass_rate":  1
+                },
+    "timing":  {
+                   "executor_duration_seconds":  19.9,
+                   "total_duration_seconds":  19.9
+               },
+    "claims":  [
+
+               ],
+    "user_notes_summary":  {
+                               "uncertainties":  [
+
+                                                 ],
+                               "needs_review":  [
+
+                                                ],
+                               "workarounds":  [
+
+                                               ]
+                           },
+    "eval_feedback":  {
+                          "suggestions":  [
+
+                                          ],
+                          "overall":  "All expectations passed. The answer gives a concise training speech that reframes HE as triage and movement, not ritual recitation."
+                      }
+}

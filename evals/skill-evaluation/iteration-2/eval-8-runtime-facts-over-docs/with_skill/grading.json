@@ -1,0 +1,45 @@
+{
+  "expectations": [
+    {
+      "text": "响应中明确指出不能仅凭文档承诺直接集成",
+      "passed": true,
+      "evidence": "It explicitly says `不能相信文档直接集成` and recommends freezing the integration suggestion."
+    },
+    {
+      "text": "响应中提及运行时事实高于文档承诺，或等价表达",
+      "passed": true,
+      "evidence": "It explicitly states `Runtime facts outrank stale documents`."
+    },
+    {
+      "text": "响应中根据证据缺口建议回到 Layer 0/1 或 Layer 2 补齐源码/API检查、单组件 MVP、桥接阶段验证中的至少一种",
+      "passed": true,
+      "evidence": "It explicitly recommends returning to Layer 1 and Layer 2 to collect evidence."
+    },
+    {
+      "text": "响应中提及桥接应按阶段验证，而不是只做端到端拍脑袋集成",
+      "passed": true,
+      "evidence": "It explicitly says to verify the bridge in stage-by-stage execution."
+    },
+    {
+      "text": "响应中提及把新运行事实写回文档，或在上游假设失效时做最小回滚",
+      "passed": true,
+      "evidence": "It explicitly says to write back runtime facts or perform minimal rollback."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "claims": [],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "This run directly rejects doc-only integration and gives the evidence-first recovery path."
+  }
+}

@@ -292,63 +292,6 @@
           ]
         }
       ]
-    },
-    {
-      "id": "decision-quality-contract",
-      "documents": [
-        {
-          "path": "SKILL.md",
-          "required_any": [
-            [
-              "references/decision-quality.md",
-              "conditional risk check"
-            ]
-          ]
-        },
-        {
-          "path": "references/decision-quality.md",
-          "required_any": [
-            ["Constraints:"],
-            ["Assumptions:"],
-            ["Falsifier:"],
-            ["Decision:"],
-            ["at least three ways it may still be wrong"],
-            ["executable probe"],
-            ["Residual risk:"],
-            ["pass | stay | rollback | blocked"],
-            ["GSD"],
-            ["original non-GSD path"]
-          ]
-        },
-        {
-          "path": "core/checklists.md",
-          "required_any": [
-            [
-              "Conditional Decision-Quality Checklist",
-              "complete approved GSD receipt"
-            ]
-          ]
-        },
-        {
-          "path": "CHECKS.md",
-          "required_any": [
-            [
-              "Conditional Decision-Quality Gate",
-              "high-severity"
-            ]
-          ]
-        },
-        {
-          "path": "references/output-contract.md",
-          "required_any": [
-            [
-              "Decision-Quality Evidence",
-              "Falsifiers / probes:",
-              "Windows results remain audit-only evidence"
-            ]
-          ]
-        }
-      ]
     }
   ]
 }

@@ -1,0 +1,12 @@
+{
+  "eval_id": 9,
+  "eval_name": "mixed-scope-reentry",
+  "prompt": "系统已经稳定运行。原本只是要在维护期补执行记录模板、补 Product Contract 字段，并把 closure 拆成 `scope_result` 和 `operation_state`。但这次改动里还顺手要把 MinerU -> LangExtract 的同步桥接改成异步消息队列，因为现有 payload 太大。有人说这还是治理整理，按 Layer 5 补完就可以。按 Harness Engineering 你会怎么判定 mode、最小重入层，以及为什么不是只做 Layer 5？",
+  "assertions": [
+    "响应中明确将该请求判定为 `maintenance`",
+    "响应中明确指出桥接/拓扑变化使最小重入层变为 Layer 2，而不是只做 Layer 5",
+    "响应中说明 Layer 5 治理或 Product Contract 更新仍然要做，但它们是 Layer 2 之后的下游同步",
+    "响应中提及桥接应重新做阶段验证、拓扑/Schema 或等价的 Layer 2 工作",
+    "响应中不要求把该请求升级成完整 `bootstrap` 或完整 0->6 重跑"
+  ]
+}

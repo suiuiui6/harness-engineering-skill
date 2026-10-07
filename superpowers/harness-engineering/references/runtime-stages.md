@@ -32,12 +32,6 @@ Then load only the cold-path files needed for the current move:
 
 Carry these fields into every active run:
 
-- `goal_statement` — the user-visible outcome and acceptance boundary
-- `execution_plan` — bounded actions, dependencies, and stop conditions
-- `environment_facts` — host, workspace, runtime, permissions, and external constraints
-- `retrospective` — observed result, deviations, and lessons learned (filled at closure)
-- `next_start_state` — the exact state, evidence, and start layer for the next run (filled at closure)
-- `work_item_ledger` — optional per-feature/task status when the scope contains multiple independently verifiable work items
 - `mode`
 - `start_layer`
 - `touched_layers`

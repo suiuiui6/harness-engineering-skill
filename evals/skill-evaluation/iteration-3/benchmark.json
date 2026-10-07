@@ -1,0 +1,440 @@
+﻿{
+    "metadata":  {
+                     "skill_name":  "harness-engineering",
+                     "skill_path":  "D:/graghRAG-agent/harness-engineering/superpowers/harness-engineering",
+                     "executor_model":  "claude-opus-4-7",
+                     "analyzer_model":  "gpt-5-codex",
+                     "timestamp":  "2026-06-16T06:24:50.7220348Z",
+                     "evals_run":  [
+                                       9,
+                                       10,
+                                       11,
+                                       12
+                                   ],
+                     "runs_per_configuration":  1
+                 },
+    "runs":  [
+                 {
+                     "eval_id":  9,
+                     "eval_name":  "mixed-scope-reentry",
+                     "configuration":  "with_skill",
+                     "run_number":  1,
+                     "result":  {
+                                    "pass_rate":  1,
+                                    "passed":  5,
+                                    "failed":  0,
+                                    "total":  5,
+                                    "time_seconds":  25.3,
+                                    "tokens":  3650,
+                                    "tool_calls":  null,
+                                    "errors":  0
+                                },
+                     "expectations":  [
+                                          {
+                                              "text":  "响应中明确将该请求判定为 `maintenance`",
+                                              "passed":  true,
+                                              "evidence":  "The decision table explicitly classifies the scenario as `Maintenance re-entry（维护期重入）`."
+                                          },
+                                          {
+                                              "text":  "响应中明确指出桥接/拓扑变化使最小重入层变为 Layer 2，而不是只做 Layer 5",
+                                              "passed":  true,
+                                              "evidence":  "The answer states `最小重入层 | Layer 2` and separately answers `能否只做 Layer 5 | 不能`."
+                                          },
+                                          {
+                                              "text":  "响应中说明 Layer 5 治理或 Product Contract 更新仍然要做，但它们是 Layer 2 之后的下游同步",
+                                              "passed":  true,
+                                              "evidence":  "It says `Layer 5 governance and Product Contract updates still follow` and shows the execution order as Layer 2 first, Layer 5 second."
+                                          },
+                                          {
+                                              "text":  "响应中提及桥接应重新做阶段验证、拓扑/Schema 或等价的 Layer 2 工作",
+                                              "passed":  true,
+                                              "evidence":  "The response calls out the async queue topology, ordering/idempotency semantics, and Layer-2 bridge verification before governance cleanup."
+                                          },
+                                          {
+                                              "text":  "响应中不要求把该请求升级成完整 `bootstrap` 或完整 0-\u003e6 重跑",
+                                              "passed":  true,
+                                              "evidence":  "It explicitly says `不需要从 Layer 0 重新 bootstrap` and `不需要跑完整 0→6`."
+                                          }
+                                      ],
+                     "notes":  [
+
+                               ]
+                 },
+                 {
+                     "eval_id":  9,
+                     "eval_name":  "mixed-scope-reentry",
+                     "configuration":  "without_skill",
+                     "run_number":  1,
+                     "result":  {
+                                    "pass_rate":  1,
+                                    "passed":  5,
+                                    "failed":  0,
+                                    "total":  5,
+                                    "time_seconds":  62.7,
+                                    "tokens":  14591,
+                                    "tool_calls":  null,
+                                    "errors":  0
+                                },
+                     "expectations":  [
+                                          {
+                                              "text":  "响应中明确将该请求判定为 `maintenance`",
+                                              "passed":  true,
+                                              "evidence":  "The answer explicitly states `Mode: maintenance`."
+                                          },
+                                          {
+                                              "text":  "响应中明确指出桥接/拓扑变化使最小重入层变为 Layer 2，而不是只做 Layer 5",
+                                              "passed":  true,
+                                              "evidence":  "It concludes `最小重入层: Layer 2` and explains that the async queue change is a topology/data-flow change, not just Layer 5 governance."
+                                          },
+                                          {
+                                              "text":  "响应中说明 Layer 5 治理或 Product Contract 更新仍然要做，但它们是 Layer 2 之后的下游同步",
+                                              "passed":  true,
+                                              "evidence":  "The recommended execution path moves from Layer 2 to Layer 3/4 if needed and then Layer 5 for the governance items."
+                                          },
+                                          {
+                                              "text":  "响应中提及桥接应重新做阶段验证、拓扑/Schema 或等价的 Layer 2 工作",
+                                              "passed":  true,
+                                              "evidence":  "It explicitly mentions topology redefinition, edge schema conversion, and stage-by-stage verification for the bridge pipeline."
+                                          },
+                                          {
+                                              "text":  "响应中不要求把该请求升级成完整 `bootstrap` 或完整 0-\u003e6 重跑",
+                                              "passed":  true,
+                                              "evidence":  "It keeps the scenario in maintenance and does not call for a full bootstrap or full 0→6 rerun."
+                                          }
+                                      ],
+                     "notes":  [
+
+                               ]
+                 },
+                 {
+                     "eval_id":  10,
+                     "eval_name":  "no-layer5-gate-waiver",
+                     "configuration":  "with_skill",
+                     "run_number":  1,
+                     "result":  {
+                                    "pass_rate":  1,
+                                    "passed":  5,
+                                    "failed":  0,
+                                    "total":  5,
+                                    "time_seconds":  16.1,
+                                    "tokens":  2996,
+                                    "tool_calls":  null,
+                                    "errors":  0
+                                },
+                     "expectations":  [
+                                          {
+                                              "text":  "响应中明确指出 internal alpha 不是跳过 Layer 5 gate 的理由",
+                                              "passed":  true,
+                                              "evidence":  "The rationale explicitly says `Internal alpha ... 不是豁免理由`."
+                                          },
+                                          {
+                                              "text":  "响应中明确说明 Layer 5 未通过时不应进入 Layer 6",
+                                              "passed":  true,
+                                              "evidence":  "The answer opens with `Layer 5 未完成，不得进入 Layer 6 construction`."
+                                          },
+                                          {
+                                              "text":  "响应中提及运行时隔离、依赖锁定、秘密处理或日志卫生、真实依赖集成测试这些工程规则",
+                                              "passed":  true,
+                                              "evidence":  "It lists dependency lock, secret handling, log hygiene, runtime isolation, and real-dependency integration testing as required Layer 5 content."
+                                          },
+                                          {
+                                              "text":  "响应中明确提及 `Product Contract`",
+                                              "passed":  true,
+                                              "evidence":  "The first required item in the completion table is explicitly named `Product Contract`."
+                                          },
+                                          {
+                                              "text":  "响应中列出 `Product Contract` 至少四项字段：version declaration、boundary definition、change log、acceptance criteria",
+                                              "passed":  true,
+                                              "evidence":  "The response lists `版本声明、边界定义、变更日志、验收标准` as the minimum Product Contract fields."
+                                          }
+                                      ],
+                     "notes":  [
+
+                               ]
+                 },
+                 {
+                     "eval_id":  10,
+                     "eval_name":  "no-layer5-gate-waiver",
+                     "configuration":  "without_skill",
+                     "run_number":  1,
+                     "result":  {
+                                    "pass_rate":  1,
+                                    "passed":  5,
+                                    "failed":  0,
+                                    "total":  5,
+                                    "time_seconds":  69.3,
+                                    "tokens":  14887,
+                                    "tool_calls":  null,
+                                    "errors":  0
+                                },
+                     "expectations":  [
+                                          {
+                                              "text":  "响应中明确指出 internal alpha 不是跳过 Layer 5 gate 的理由",
+                                              "passed":  true,
+                                              "evidence":  "The answer says there is no `internal alpha 除外` clause and rejects the waiver explicitly."
+                                          },
+                                          {
+                                              "text":  "响应中明确说明 Layer 5 未通过时不应进入 Layer 6",
+                                              "passed":  true,
+                                              "evidence":  "It states `必须补齐 Layer 5 后才能进入 Layer 6`."
+                                          },
+                                          {
+                                              "text":  "响应中提及运行时隔离、依赖锁定、秘密处理或日志卫生、真实依赖集成测试这些工程规则",
+                                              "passed":  true,
+                                              "evidence":  "It calls out dependency lock, secret handling, log hygiene, and real-dependency integration-test discipline, and also ties Layer 6 to Layer 5 engineering rules."
+                                          },
+                                          {
+                                              "text":  "响应中明确提及 `Product Contract`",
+                                              "passed":  true,
+                                              "evidence":  "The answer explicitly names `Product Contract（最低可行版）`."
+                                          },
+                                          {
+                                              "text":  "响应中列出 `Product Contract` 至少四项字段：version declaration、boundary definition、change log、acceptance criteria",
+                                              "passed":  true,
+                                              "evidence":  "It enumerates `version declaration`, `boundary definition`, `change log`, and `acceptance criteria`."
+                                          }
+                                      ],
+                     "notes":  [
+
+                               ]
+                 },
+                 {
+                     "eval_id":  11,
+                     "eval_name":  "bridge-evidence-gap",
+                     "configuration":  "with_skill",
+                     "run_number":  1,
+                     "result":  {
+                                    "pass_rate":  0.8,
+                                    "passed":  4,
+                                    "failed":  1,
+                                    "total":  5,
+                                    "time_seconds":  12.3,
+                                    "tokens":  2930,
+                                    "tool_calls":  null,
+                                    "errors":  0
+                                },
+                     "expectations":  [
+                                          {
+                                              "text":  "响应中明确指出不能直接集成",
+                                              "passed":  true,
+                                              "evidence":  "The direct answer says `不能直接集成` because bridge evidence is missing."
+                                          },
+                                          {
+                                              "text":  "响应中明确建议从 Layer 2 重入，而不是回到 Layer 1 或 Layer 0",
+                                              "passed":  false,
+                                              "evidence":  "The response clearly recommends `Layer 2` and explains why not Layer 1, but it never explicitly rules out Layer 0. This eval grades that omission strictly to preserve rollback-precision discrimination."
+                                          },
+                                          {
+                                              "text":  "响应中明确说明不回到 Layer 1 的理由是单组件实测与能力边界已经有证据",
+                                              "passed":  true,
+                                              "evidence":  "It says the component-level proof is already complete and that rolling back to Layer 1 would be `过度回滚`."
+                                          },
+                                          {
+                                              "text":  "响应中提及桥接应按阶段验证，并补齐 trace、缓存/回放或等价的 Layer 2 证据",
+                                              "passed":  true,
+                                              "evidence":  "The action list requires stage-by-stage bridge validation, runnable trace evidence, and replayable payload capture."
+                                          },
+                                          {
+                                              "text":  "响应中提及把新运行事实写回文档，或在需要时做最小回滚",
+                                              "passed":  true,
+                                              "evidence":  "It says to `录制可回放 payload，写入 docs` and, if assumptions fail, `最小化回滚到 Layer 1 仅修复失败点`."
+                                          }
+                                      ],
+                     "notes":  [
+                                   "Response implicitly excludes Layer 0 by choosing Layer 2, but it does not spell the Layer-0 non-reentry out directly."
+                               ]
+                 },
+                 {
+                     "eval_id":  11,
+                     "eval_name":  "bridge-evidence-gap",
+                     "configuration":  "without_skill",
+                     "run_number":  1,
+                     "result":  {
+                                    "pass_rate":  1,
+                                    "passed":  5,
+                                    "failed":  0,
+                                    "total":  5,
+                                    "time_seconds":  56.3,
+                                    "tokens":  14962,
+                                    "tool_calls":  null,
+                                    "errors":  0
+                                },
+                     "expectations":  [
+                                          {
+                                              "text":  "响应中明确指出不能直接集成",
+                                              "passed":  true,
+                                              "evidence":  "The answer explicitly says the business request cannot be integrated directly because the Layer 2 gate is still open."
+                                          },
+                                          {
+                                              "text":  "响应中明确建议从 Layer 2 重入，而不是回到 Layer 1 或 Layer 0",
+                                              "passed":  true,
+                                              "evidence":  "It says `应从 Layer 2 重入`, includes a dedicated `为什么不是 Layer 0` section, and keeps Layer 0-1 closed."
+                                          },
+                                          {
+                                              "text":  "响应中明确说明不回到 Layer 1 的理由是单组件实测与能力边界已经有证据",
+                                              "passed":  true,
+                                              "evidence":  "It explains that the Layer 0 and Layer 1 assets remain valid because the component boundaries and isolated MVP proof already exist."
+                                          },
+                                          {
+                                              "text":  "响应中提及桥接应按阶段验证，并补齐 trace、缓存/回放或等价的 Layer 2 证据",
+                                              "passed":  true,
+                                              "evidence":  "It requires schema definition, stage-by-stage validation, replayable payload recording, and reproducible bridge runs."
+                                          },
+                                          {
+                                              "text":  "响应中提及把新运行事实写回文档，或在需要时做最小回滚",
+                                              "passed":  true,
+                                              "evidence":  "It quotes the minimal-rollback rule directly and frames the repair as filling the Layer 2 evidence gap rather than restarting from scratch."
+                                          }
+                                      ],
+                     "notes":  [
+
+                               ]
+                 },
+                 {
+                     "eval_id":  12,
+                     "eval_name":  "anti-checklist-explanation",
+                     "configuration":  "with_skill",
+                     "run_number":  1,
+                     "result":  {
+                                    "pass_rate":  1,
+                                    "passed":  5,
+                                    "failed":  0,
+                                    "total":  5,
+                                    "time_seconds":  19.9,
+                                    "tokens":  3077,
+                                    "tool_calls":  null,
+                                    "errors":  0
+                                },
+                     "expectations":  [
+                                          {
+                                              "text":  "响应中明确指出 Harness Engineering 不是“无论什么请求都把 Layer 0 到 Layer 6 全讲一遍”的静态清单",
+                                              "passed":  true,
+                                              "evidence":  "The first line says `Harness Engineering 不是一套固定流程，是一套分诊逻辑`."
+                                          },
+                                          {
+                                              "text":  "响应中提及应先判定 `bootstrap` / `maintenance`，再决定最小起始层或重入层",
+                                              "passed":  true,
+                                              "evidence":  "It explicitly says to classify maintenance vs bootstrap/new-feature first and then choose the minimum valid entry layer."
+                                          },
+                                          {
+                                              "text":  "响应中明确说明新 feature 不能跳过能力边界检查或单组件 MVP 验证直接写 PRD",
+                                              "passed":  true,
+                                              "evidence":  "The answer says new feature or bootstrap work `绝不能跳过能力边界检查和单组件 MVP 验证` before blueprinting."
+                                          },
+                                          {
+                                              "text":  "响应中明确说明维护期问题不需要每次完整回放 Layer 0-\u003e6",
+                                              "passed":  true,
+                                              "evidence":  "It says a localized maintenance change `根本不需要从 Layer 0 开始复述` and should enter near the changed scope."
+                                          },
+                                          {
+                                              "text":  "响应中把这套方法讲成推进关系、delivery arc 或等价的方法论，而不是只枚举层号",
+                                              "passed":  true,
+                                              "evidence":  "The closing explanation frames the method as a delivery arc with `能力证明 / 工程循环 / 产品化` rather than a static list."
+                                          }
+                                      ],
+                     "notes":  [
+
+                               ]
+                 },
+                 {
+                     "eval_id":  12,
+                     "eval_name":  "anti-checklist-explanation",
+                     "configuration":  "without_skill",
+                     "run_number":  1,
+                     "result":  {
+                                    "pass_rate":  1,
+                                    "passed":  5,
+                                    "failed":  0,
+                                    "total":  5,
+                                    "time_seconds":  86.3,
+                                    "tokens":  15073,
+                                    "tool_calls":  null,
+                                    "errors":  0
+                                },
+                     "expectations":  [
+                                          {
+                                              "text":  "响应中明确指出 Harness Engineering 不是“无论什么请求都把 Layer 0 到 Layer 6 全讲一遍”的静态清单",
+                                              "passed":  true,
+                                              "evidence":  "The title and opening paragraphs reject `七层念经` and describe HE as a control framework instead of a ritual."
+                                          },
+                                          {
+                                              "text":  "响应中提及应先判定 `bootstrap` / `maintenance`，再决定最小起始层或重入层",
+                                              "passed":  true,
+                                              "evidence":  "It explicitly says the entry question is `bootstrap 还是 maintenance` and then to select the smallest impacted layer."
+                                          },
+                                          {
+                                              "text":  "响应中明确说明新 feature 不能跳过能力边界检查或单组件 MVP 验证直接写 PRD",
+                                              "passed":  true,
+                                              "evidence":  "The second half explains that jumping to Layer 4 PRD work without Layer 0-1 proof violates the method."
+                                          },
+                                          {
+                                              "text":  "响应中明确说明维护期问题不需要每次完整回放 Layer 0-\u003e6",
+                                              "passed":  true,
+                                              "evidence":  "The maintenance example says a local bug under stable contracts should start at Layer 6 instead of replaying Layer 0→6."
+                                          },
+                                          {
+                                              "text":  "响应中把这套方法讲成推进关系、delivery arc 或等价的方法论，而不是只枚举层号",
+                                              "passed":  true,
+                                              "evidence":  "It reframes HE as `证据驱动的范围控制` and a decision/control framework rather than a checklist."
+                                          }
+                                      ],
+                     "notes":  [
+
+                               ]
+                 }
+             ],
+    "run_summary":  {
+                        "with_skill":  {
+                                           "pass_rate":  {
+                                                             "mean":  0.95,
+                                                             "stddev":  0.1,
+                                                             "min":  0.8,
+                                                             "max":  1
+                                                         },
+                                           "time_seconds":  {
+                                                                "mean":  18.4,
+                                                                "stddev":  5.5486,
+                                                                "min":  12.3,
+                                                                "max":  25.3
+                                                            },
+                                           "tokens":  {
+                                                          "mean":  3163.25,
+                                                          "stddev":  330.0216,
+                                                          "min":  2930,
+                                                          "max":  3650
+                                                      }
+                                       },
+                        "without_skill":  {
+                                              "pass_rate":  {
+                                                                "mean":  1,
+                                                                "stddev":  0,
+                                                                "min":  1,
+                                                                "max":  1
+                                                            },
+                                              "time_seconds":  {
+                                                                   "mean":  68.65,
+                                                                   "stddev":  12.9083,
+                                                                   "min":  56.3,
+                                                                   "max":  86.3
+                                                               },
+                                              "tokens":  {
+                                                             "mean":  14878.25,
+                                                             "stddev":  206.1801,
+                                                             "min":  14591,
+                                                             "max":  15073
+                                                         }
+                                          },
+                        "delta":  {
+                                      "pass_rate":  "-0.05",
+                                      "time_seconds":  "-50.25",
+                                      "tokens":  "-11715"
+                                  }
+                    },
+    "notes":  [
+                  "Iteration-3 achieved a measurable correctness separation: `with_skill` scored 4/5 on eval-11 because it kept the Layer-0 non-reentry implicit, while `without_skill` made that rollback boundary explicit.",
+                  "This confirms the new prompts are more discriminative than iteration-2, but the separation is still narrow: the baseline remained 100% across evals 9-12.",
+                  "The `with_skill` harness still produced large efficiency gains, with much lower wall-clock time and token usage on every eval.",
+                  "Several qualitative advantages of `with_skill` remain under-rewarded by the current binary assertions: answers are generally more direct, less encyclopedic, and better aligned to the requested decision surface.",
+                  "Next discrimination lever: add assertions that require explicit non-reentry statements and penalize over-broad restarts or unnecessary methodology expansion, especially on Layer-2 precision prompts."
+              ]
+}

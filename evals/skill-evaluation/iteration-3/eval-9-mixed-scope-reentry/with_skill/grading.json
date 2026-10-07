@@ -1,0 +1,59 @@
+﻿{
+    "expectations":  [
+                         {
+                             "text":  "响应中明确将该请求判定为 `maintenance`",
+                             "passed":  true,
+                             "evidence":  "The decision table explicitly classifies the scenario as `Maintenance re-entry（维护期重入）`."
+                         },
+                         {
+                             "text":  "响应中明确指出桥接/拓扑变化使最小重入层变为 Layer 2，而不是只做 Layer 5",
+                             "passed":  true,
+                             "evidence":  "The answer states `最小重入层 | Layer 2` and separately answers `能否只做 Layer 5 | 不能`."
+                         },
+                         {
+                             "text":  "响应中说明 Layer 5 治理或 Product Contract 更新仍然要做，但它们是 Layer 2 之后的下游同步",
+                             "passed":  true,
+                             "evidence":  "It says `Layer 5 governance and Product Contract updates still follow` and shows the execution order as Layer 2 first, Layer 5 second."
+                         },
+                         {
+                             "text":  "响应中提及桥接应重新做阶段验证、拓扑/Schema 或等价的 Layer 2 工作",
+                             "passed":  true,
+                             "evidence":  "The response calls out the async queue topology, ordering/idempotency semantics, and Layer-2 bridge verification before governance cleanup."
+                         },
+                         {
+                             "text":  "响应中不要求把该请求升级成完整 `bootstrap` 或完整 0-\u003e6 重跑",
+                             "passed":  true,
+                             "evidence":  "It explicitly says `不需要从 Layer 0 重新 bootstrap` and `不需要跑完整 0→6`."
+                         }
+                     ],
+    "summary":  {
+                    "passed":  5,
+                    "failed":  0,
+                    "total":  5,
+                    "pass_rate":  1
+                },
+    "timing":  {
+                   "executor_duration_seconds":  25.3,
+                   "total_duration_seconds":  25.3
+               },
+    "claims":  [
+
+               ],
+    "user_notes_summary":  {
+                               "uncertainties":  [
+
+                                                 ],
+                               "needs_review":  [
+
+                                                ],
+                               "workarounds":  [
+
+                                               ]
+                           },
+    "eval_feedback":  {
+                          "suggestions":  [
+
+                                          ],
+                          "overall":  "All expectations passed. The response stays in maintenance mode, re-enters at Layer 2, and keeps Layer 5 as downstream synchronization rather than the starting point."
+                      }
+}

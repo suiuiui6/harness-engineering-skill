@@ -1,0 +1,45 @@
+{
+  "expectations": [
+    {
+      "text": "响应中明确给出三段推进主线，而不是只罗列层号",
+      "passed": true,
+      "evidence": "It explicitly gives a three-part arc: `Foundation & Capability Proof`, `Engineering Loop`, `Productization`."
+    },
+    {
+      "text": "响应中提及证据优先，且说明源码/API检查或运行时事实高于假设",
+      "passed": true,
+      "evidence": "It says `运行时事实 > 静态文档` and `API 实际返回什么，比 API 文档里承诺什么更重要`."
+    },
+    {
+      "text": "响应中提及单组件 MVP 闭环先于桥接或系统集成",
+      "passed": true,
+      "evidence": "It explicitly states `单组件 MVP 先于系统集成`."
+    },
+    {
+      "text": "响应中提及环境隔离和逐层集成",
+      "passed": true,
+      "evidence": "It explicitly names `环境隔离` and `渐进集成`."
+    },
+    {
+      "text": "响应中不把这套方法论讲成静态清单，而是解释其从能力验证到产品落地的推进关系",
+      "passed": true,
+      "evidence": "It explains the method as a progression from capability verification to product delivery."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "claims": [],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "This run gives the clearest concise explanation of the delivery arc and core philosophy."
+  }
+}

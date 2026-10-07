@@ -171,11 +171,3 @@ Quick fail-fast checks:
 - readiness or review is bypassed before release
 
 Any hit requires immediate correction before completion.
-
-## 10. Conditional Decision-Quality Gate
-
-The risk check determines whether a first-principles or adversarial trigger is active. When inactive, the evidence record must emit `Protocol: skipped` and the exact mechanical/exact-plan reason. When active, the fixed decision-quality evidence block is mandatory, including the `Decision quality:` wrapper, Trigger, Protocol, Constraints, Assumptions, Falsifier, Falsifiers / probes, Decision, Result, and Residual risk. The first-principles `Falsifier` condition is serialized first in `Falsifiers / probes`, followed by executable probes, results, and gaps.
-
-An unresolved or unrun high-severity threat forces `stay`, a minimal upstream `rollback`, or `blocked`; it cannot be silently passed. Accepted medium- or low-risk items must be recorded. A complete approved GSD receipt may satisfy the same review once without duplication; incomplete, missing, disabled, invalid, version-mismatched, or blocked GSD falls back to the original Harness path. The only GSD operations allowed are `plan-phase`, `execute-phase`, and `verify-work`; `gsd-review` and autonomous execution are not allowed.
-
-Harness remains authoritative for this gate, risk evidence, rollback, `scope_result`, and `operation_state`. This gate does not change goal-enforcement ownership or imply mechanical blocking on Windows; host wording remains `audit-only-windows` when hooks are unavailable.

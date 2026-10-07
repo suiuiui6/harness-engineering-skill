@@ -26,7 +26,6 @@ This bundle is the copyable entry point for evidence-first engineering work. Kee
 - Do not cross a layer gate without pass evidence.
 - If downstream evidence breaks an upstream assumption, roll back minimally.
 - Every closure must emit `scope_result` and `operation_state`.
-- Every active run also carries `goal_statement`, `execution_plan`, and `environment_facts`; closure adds a concise `retrospective` and an actionable `next_start_state` so the next run can resume from evidence rather than reconstructing context.
 
 ## Cold-Path Reads
 
@@ -35,8 +34,6 @@ This bundle is the copyable entry point for evidence-first engineering work. Kee
 - Read `core/exit-and-reentry.md` only for rollback or maintenance re-entry decisions.
 - Read `core/layer-details.md` only for per-layer anti-patterns, outputs, or detailed repair guidance.
 - Read `core/capability-model.md` only when capability boundaries or component roles need clarification.
-- Read `references/decision-quality.md` only when the risk check identifies a trigger or when evaluating a decision-quality gate; do not turn it into an always-on prompt ritual.
-- Read `references/learn-harness-engineering-mapping.md` when comparing this bundle with the upstream course or deciding whether to import a harness pattern.
 
 ## Reusable Resources And Validation
 

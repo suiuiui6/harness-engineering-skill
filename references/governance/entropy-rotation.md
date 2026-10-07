@@ -84,7 +84,7 @@ comm -23 /tmp/all_endpoints.txt /tmp/tested_endpoints.txt
 ### 4. 归档文件回流检查
 
 **检查项**：
-- `docs/troubleshooting-archive/` 中的文件是否都已回流到对应规范文档
+- `references/troubleshooting-archive/` 中的文件是否都已回流到对应规范文档
 - 是否有新的散落修复报告未归档
 
 **命令模板**：
@@ -93,8 +93,8 @@ comm -23 /tmp/all_endpoints.txt /tmp/tested_endpoints.txt
 find . -maxdepth 1 -type f \( -name "*REPORT*.md" -o -name "*TROUBLESHOOTING*.md" -o -name "*FIX*.md" -o -name "*SOLUTION*.md" \) 2>/dev/null
 
 # 检查归档索引是否完整
-ls docs/troubleshooting-archive/*.md | wc -l
-grep "^- \[" docs/troubleshooting-archive/README.md | wc -l
+ls references/troubleshooting-archive/*.md | wc -l
+grep "^- \[" references/troubleshooting-archive/README.md | wc -l
 ```
 
 **阈值**：根目录有散落报告 OR 归档索引不完整 → 触发修复
@@ -103,7 +103,7 @@ grep "^- \[" docs/troubleshooting-archive/README.md | wc -l
 
 ## 修复循环
 
-1. **发现漂移** → chatbot-reviewer 生成巡检报告（`docs/governance/entropy-inspection-YYYY-MM-DD.md`）
+1. **发现漂移** → chatbot-reviewer 生成巡检报告（`references/governance/entropy-inspection-YYYY-MM-DD.md`）
 2. **判断严重性**：
    - 轻微（差异 ≤ 阈值）→ 记录到报告，下月复查
    - 中等（差异 > 阈值但 < 2×阈值）→ 创建 GitHub Issue，标记 `entropy-debt`

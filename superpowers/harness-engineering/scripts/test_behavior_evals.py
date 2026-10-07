@@ -1,5 +1,4 @@
 import json
-import os
 from pathlib import Path
 import shutil
 import sys
@@ -29,49 +28,7 @@ _remove_module_cache_file()
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 BUNDLE_ROOT = SCRIPT_DIR.parent
-
-
-def _select_temp_parent() -> Path:
-    bundle_root = BUNDLE_ROOT.resolve()
-    candidates = [Path.cwd(), Path.cwd().parent, Path(Path.cwd().anchor), Path(tempfile.gettempdir())]
-    checked: set[Path] = set()
-    failures: list[str] = []
-    for candidate in candidates:
-        try:
-            candidate = candidate.resolve()
-        except OSError as exc:
-            failures.append(f"{candidate}: {exc}")
-            continue
-        if (
-            candidate in checked
-            or candidate == bundle_root
-            or candidate.is_relative_to(bundle_root)
-            or bundle_root.is_relative_to(candidate)
-        ):
-            continue
-        checked.add(candidate)
-        if not candidate.is_dir() or not os.access(candidate, os.W_OK):
-            failures.append(f"{candidate}: not writable")
-            continue
-        probe: Path | None = None
-        try:
-            probe = Path(tempfile.mkdtemp(prefix="behavior-evals-", dir=candidate))
-            nested = probe / "nested"
-            nested.mkdir()
-            marker = nested / "probe.txt"
-            marker.write_text("ok", encoding="utf-8")
-            if marker.read_text(encoding="utf-8") != "ok":
-                raise OSError("temporary-parent probe read-back mismatch")
-            return candidate
-        except (OSError, PermissionError) as exc:
-            failures.append(f"{candidate}: {exc}")
-        finally:
-            if probe is not None:
-                shutil.rmtree(probe, ignore_errors=False)
-    raise RuntimeError("no writable temporary parent found: " + "; ".join(failures))
-
-
-TEMP_ROOT = _select_temp_parent()
+TEMP_ROOT = Path("C:/tmp")
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
@@ -95,9 +52,9 @@ class BehaviorEvalTests(unittest.TestCase):
         definitions, errors = behavior_evals.load_eval_definitions(BUNDLE_ROOT)
 
         self.assertEqual([], errors)
-        self.assertEqual(22, len(definitions))
-        self.assertEqual(set(range(1, 12)) | set(range(101, 112)), {definition["id"] for definition in definitions})
-        self.assertEqual(22, len({definition["name"] for definition in definitions}))
+        self.assertEqual(6, len(definitions))
+        self.assertEqual({1, 2, 3, 101, 102, 103}, {definition["id"] for definition in definitions})
+        self.assertEqual(6, len({definition["name"] for definition in definitions}))
         self.assertEqual({"codex", "claude-code"}, {definition["host"] for definition in definitions})
 
     def test_duplicate_eval_id_is_rejected(self):
@@ -174,90 +131,6 @@ class BehaviorEvalTests(unittest.TestCase):
             result["expectations"],
         )
 
-    def test_high_risk_complete_response_passes(self):
-        definitions, errors = behavior_evals.load_eval_definitions(BUNDLE_ROOT)
-        self.assertEqual([], errors)
-        eval_definition = next(
-            definition for definition in definitions if definition["name"] == "decision-quality-irreversible-migration"
-        )
-
-        response = """Protocol: both
-Constraints: public contract and irreversible migration.
-Assumptions: compatibility is preserved.
-Falsifier: rollback probe fails.
-Decision: proceed only with evidence.
-Three threats and executable probes:
-Threat 1: concurrent writer test.
-Threat 2 and executable probe: rollback restoration test.
-Threat 3 and executable probe: mixed-version client test.
-Residual risk: operational timing remains.
-Result: stay"""
-
-        result = behavior_evals.grade_response(eval_definition, response)
-
-        self.assertEqual("pass", result["status"])
-
-    def test_missing_probe_response_fails_even_when_threat_is_identified(self):
-        definitions, errors = behavior_evals.load_eval_definitions(BUNDLE_ROOT)
-        self.assertEqual([], errors)
-        eval_definition = next(
-            definition for definition in definitions if definition["name"] == "decision-quality-missing-probe"
-        )
-
-        result = behavior_evals.grade_response(
-            eval_definition,
-            "Result: pass; threat identified but probe not run.",
-        )
-
-        self.assertEqual("fail", result["status"])
-
-    def test_three_threats_without_executable_probes_fails(self):
-        definitions, errors = behavior_evals.load_eval_definitions(BUNDLE_ROOT)
-        self.assertEqual([], errors)
-        eval_definition = next(
-            definition for definition in definitions if definition["id"] == 5
-        )
-
-        result = behavior_evals.grade_response(
-            eval_definition,
-            "Protocol: both; three threats identified; Residual risk: known; Result: stay.",
-        )
-
-        self.assertEqual("fail", result["status"])
-
-    def test_three_threats_with_unrun_probes_fails(self):
-        definitions, errors = behavior_evals.load_eval_definitions(BUNDLE_ROOT)
-        self.assertEqual([], errors)
-        eval_definition = next(definition for definition in definitions if definition["id"] == 5)
-        result = behavior_evals.grade_response(
-            eval_definition,
-            "Protocol: both; three threats; executable probes were not run; Residual risk: known; Result: pass.",
-        )
-        self.assertEqual("fail", result["status"])
-
-    def test_mechanical_skip_with_protocol_terms_fails(self):
-        definitions, errors = behavior_evals.load_eval_definitions(BUNDLE_ROOT)
-        self.assertEqual([], errors)
-        eval_definition = next(
-            definition for definition in definitions if definition["id"] == 106
-        )
-
-        result = behavior_evals.grade_response(
-            eval_definition,
-            "Protocol: skipped; first-principles and adversarial review still ran.",
-        )
-
-        self.assertEqual("fail", result["status"])
-
-    def test_goal_eval_prompts_load_separately_without_replacement_markers(self):
-        goal_catalog = json.loads(
-            (Path.home() / ".codex" / "skills" / "goal" / "evals" / "behavior-evals.json").read_text(encoding="utf-8")
-        )
-        self.assertIsInstance(goal_catalog.get("evals"), list)
-        self.assertTrue(goal_catalog["evals"])
-        for definition in goal_catalog["evals"]:
-            self.assertNotIn("????", definition.get("prompt", ""))
-
     def test_grade_response_does_not_treat_layer_number_as_substring_match(self):
         eval_definition = {
             "id": 999,
@@ -283,118 +156,6 @@ Result: stay"""
 
         self.assertEqual("fail", result["status"])
         self.assertEqual(["missing required terms: ['bootstrap']"], [item["evidence"] for item in result["expectations"]])
-
-    def test_grade_response_ignores_chinese_negated_ascii_terms(self):
-        eval_definition = {
-            "id": 1001,
-            "name": "chinese-negated-mode-phrases",
-            "host": "codex",
-            "expectations": [
-                {"text": "requires bootstrap and layer 0", "all": ["bootstrap", "Layer 0"], "any": [], "none": []}
-            ],
-        }
-
-        result = behavior_evals.grade_response(
-            eval_definition,
-            "不是 bootstrap，也不是 Layer 0；继续保持局部修复。",
-        )
-
-        self.assertEqual("fail", result["status"])
-        self.assertEqual(["missing required terms: ['bootstrap', 'Layer 0']"], [item["evidence"] for item in result["expectations"]])
-
-    def test_grade_response_ignores_chinese_negated_cjk_terms(self):
-        eval_definition = {
-            "id": 1002,
-            "name": "chinese-negated-first-principles",
-            "host": "codex",
-            "expectations": [
-                {"text": "requires first-principles review", "all": [], "any": ["第一性原理"], "none": []}
-            ],
-        }
-
-        result = behavior_evals.grade_response(
-            eval_definition,
-            "不需要第一性原理。Constraints: preserve the public contract.",
-        )
-
-        self.assertEqual("fail", result["status"])
-        self.assertEqual(["matched none of: ['第一性原理']"], [item["evidence"] for item in result["expectations"]])
-
-    def test_grade_response_keeps_later_positive_cjk_substring(self):
-        eval_definition = {
-            "id": 1003,
-            "name": "later-positive-first-principles",
-            "host": "codex",
-            "expectations": [
-                {"text": "requires first-principles review", "all": [], "any": ["第一性原理"], "none": []}
-            ],
-        }
-
-        result = behavior_evals.grade_response(
-            eval_definition,
-            "not 第一性原理 but 第一性原理 is checked",
-        )
-
-        self.assertEqual("pass", result["status"])
-
-    def test_grade_response_ignores_bare_chinese_negation_before_cjk_term(self):
-        eval_definition = {
-            "id": 1004,
-            "name": "bare-chinese-negation",
-            "host": "codex",
-            "expectations": [
-                {"text": "requires first-principles review", "all": [], "any": ["第一性原理"], "none": []}
-            ],
-        }
-
-        result = behavior_evals.grade_response(eval_definition, "不第一性原理")
-
-        self.assertEqual("fail", result["status"])
-
-    def test_grade_response_ignores_chinese_should_not_before_cjk_term(self):
-        eval_definition = {
-            "id": 1005,
-            "name": "chinese-should-not-negation",
-            "host": "codex",
-            "expectations": [
-                {"text": "requires first-principles review", "all": [], "any": ["第一性原理"], "none": []}
-            ],
-        }
-
-        result = behavior_evals.grade_response(eval_definition, "不应第一性原理")
-
-        self.assertEqual("fail", result["status"])
-
-    def test_grade_response_ignores_chinese_negation_with_intervening_verb(self):
-        eval_definition = {
-            "id": 1006,
-            "name": "chinese-verb-negation",
-            "host": "codex",
-            "expectations": [
-                {"text": "requires first-principles review", "all": [], "any": ["第一性原理"], "none": []}
-            ],
-        }
-
-        result = behavior_evals.grade_response(eval_definition, "不要运行第一性原理")
-
-        self.assertEqual("fail", result["status"])
-
-    def test_grade_response_keeps_positive_cjk_term_after_chinese_negated_occurrence(self):
-        eval_definition = {
-            "id": 1007,
-            "name": "mixed-chinese-negation",
-            "host": "codex",
-            "expectations": [
-                {"text": "requires first-principles review", "all": [], "any": ["第一性原理"], "none": []}
-            ],
-        }
-
-        result = behavior_evals.grade_response(
-            eval_definition,
-            "不要运行第一性原理，但后来运行第一性原理。",
-        )
-
-        self.assertEqual("pass", result["status"])
 
     def test_missing_response_is_not_run(self):
         definitions, errors = behavior_evals.load_eval_definitions(BUNDLE_ROOT)

@@ -13,6 +13,14 @@ When satisfied, record bootstrap completion date in project governance docs.
 
 ## Maintenance Operating Model
 
+## Entry Classification Before Re-entry
+
+Classify the request before deciding whether to reopen the full method.
+
+- Bootstrap-scale change: new project setup, core component replacement, architecture rebuild, or a net-new primary flow.
+- Maintenance-scale change: localized feature work, defect repair, partial refactor, or local spec correction on a stable system.
+- Default: choose maintenance mode unless current evidence shows the change breaks an upstream assumption or widens into a system-level redesign.
+
 ### Keep
 
 - documentation as source of truth
@@ -47,3 +55,4 @@ When satisfied, record bootstrap completion date in project governance docs.
 - Roll back to the smallest layer whose assumptions failed.
 - Repair and re-verify that layer's pass criteria.
 - Continue forward only after verification evidence is available.
+- For maintenance work, do not reopen Layer 0-6 end-to-end unless the classification changes from local change to system redesign.

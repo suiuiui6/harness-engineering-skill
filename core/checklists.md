@@ -44,6 +44,11 @@
 - [ ] Secret handling and logging safety rules are explicit.
 - [ ] Integration tests are required on real dependencies.
 - [ ] Collaboration roles and review/debug loops are explicit.
+- [ ] Product Contract includes version declaration.
+- [ ] Product Contract includes boundary definition.
+- [ ] Product Contract includes change log.
+- [ ] Product Contract includes acceptance criteria.
+- [ ] Layer 5 is not marked passed if any Product Contract field is missing.
 
 ### Layer 6
 

@@ -1,0 +1,45 @@
+{
+  "expectations": [
+    {
+      "text": "响应中明确将该请求判定为 `maintenance`",
+      "passed": true,
+      "evidence": "The response explicitly states `Mode：**Maintenance（维护期）**`."
+    },
+    {
+      "text": "响应中建议从 Layer 5 重入，而不是直接回到 Layer 0 或要求完整 0->6 流程",
+      "passed": true,
+      "evidence": "The response explicitly states `Layer 5（仅 Layer 5）` and says not to rerun 0→6."
+    },
+    {
+      "text": "响应中使用 `bootstrap` / `maintenance` 术语，不回退到 `setup`",
+      "passed": true,
+      "evidence": "The response uses `Maintenance（维护期）` and the `bootstrap` / `maintenance` terminology."
+    },
+    {
+      "text": "响应中明确区分 `scope_result` 与 `operation_state`，而不是把两者混成一个 closure 字段",
+      "passed": true,
+      "evidence": "The response explicitly defines `scope_result` and `operation_state` as separate closure fields."
+    },
+    {
+      "text": "响应中提及需要更新执行记录模板、治理文档或 closure 契约一类的 Layer 5 产物",
+      "passed": true,
+      "evidence": "The response lists `execution-record 模板`, `governance 更新`, and `closure-contract 更新`."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "claims": [],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "This run directly answers the maintenance scenario, the Layer 5 re-entry, and the closure-field split."
+  }
+}

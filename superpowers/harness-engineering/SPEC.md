@@ -150,18 +150,6 @@ Rollback Target Rule:
 
 - repair the baseline before entering any numbered layer
 
-## 6.1. Five-Part Execution Loop
-
-Every execution record must make the engineering loop explicit:
-
-1. **Goal** — state the observable outcome, scope boundary, and acceptance criteria.
-2. **Execution** — list bounded actions, dependencies, sequencing, and stop/rollback conditions.
-3. **Environment** — record host mode, workspace/isolation boundary, runtime/dependency versions, permissions, and external constraints.
-4. **Retrospective** — at closure, compare result with the goal, record deviations, root causes, lessons, and what the evidence cannot prove.
-5. **State handoff** — record the next start layer, preserved artifacts/evidence, open risks, and the first restart action.
-
-The first three fields are required before governed mutation. The last two are required for `accepted`, `rework-required`, `blocked`, and `incomplete` closure records. A closure without a state handoff is incomplete because it cannot safely seed the next plan.
-
 ## 8. Layer-by-Layer Contract
 
 ## 8.1 Layer 0: Capability Boundary Mapping

@@ -67,3 +67,6 @@ Validate the installation with one explicit `/harness-engineering` run that prov
 - touched layers are tracked
 - pass evidence is cited
 - final `scope_result` and `operation_state` are emitted
+
+
+

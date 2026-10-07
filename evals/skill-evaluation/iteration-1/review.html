@@ -63,6 +63,14 @@
       text-align: right;
     }
 
+    .artifact-notice {
+      margin-top: 0.5rem;
+      max-width: 56rem;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      opacity: 0.85;
+    }
+
     /* ---- Main content ---- */
     .main {
       flex: 1;
@@ -546,6 +554,7 @@
       <div>
         <h1>Eval Review: <span id="skill-name"></span></h1>
         <div class="instructions">Review each output and leave feedback below. Navigate with arrow keys or buttons. When done, copy feedback and paste into Claude Code.</div>
+        <div class="artifact-notice">Historical evaluation artifact. Outputs and scores reflect the captured run only and should not be treated as current project guidance or default technical recommendations.</div>
       </div>
       <div class="progress" id="progress"></div>
     </div>

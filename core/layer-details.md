@@ -137,6 +137,11 @@ Establish mandatory engineering constraints for sustainable implementation.
 ### Outputs
 
 - Project governance and engineering-rules document.
+- Product Contract for this skill/superpower with four required fields:
+  - Version declaration (semantic version and compatibility statement)
+  - Boundary definition (in-scope, out-of-scope, and done definition)
+  - Change log (what changed, why, impact, migration/evidence links)
+  - Acceptance criteria (must-pass checks, failure signals, rollback conditions)
 
 ### Anti-patterns
 

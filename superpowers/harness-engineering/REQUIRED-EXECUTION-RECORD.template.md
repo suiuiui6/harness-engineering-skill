@@ -26,14 +26,6 @@
   - `<basis-3>`
 - Scope kind: `<new-core|topology-change|major-feature|governance-drift|local-fix|other>`
 
-## 0.1) Goal and Execution Plan
-
-- Goal statement: `<observable outcome and acceptance boundary>`
-- Execution plan:
-  1. `<bounded action>`
-  2. `<bounded action>`
-- Stop conditions: `<failure, evidence gap, or rollback trigger>`
-
 ## 0.5) Workbench Baseline
 
 - Isolated runtime or bounded workspace: `<yes|no>`
@@ -42,13 +34,6 @@
 - Secret template and ignore policy ready: `<yes|no>`
 - Replayable commands confirmed: `<yes|no>`
 - Baseline result: `<pass|fail>`
-
-## 0.6) Execution Environment
-
-- Host mode: `<native|audit-only-windows|other>`
-- Runtime and dependency snapshot: `<versions or lockfile pointer>`
-- Workspace and isolation boundary: `<path and isolation evidence>`
-- External services and constraints: `<service, network, permission, or time limits>`
 
 ## 1) Start Layer Decision
 
@@ -109,13 +94,6 @@
   - `<update-2>`
 - Drift status: `<none|docs-updated|rollback-required>`
 
-## 3.5) Retrospective
-
-- Result against goal: `<accepted|partial|failed>`
-- Plan deviations: `<none or concise description>`
-- Root causes and lessons: `<what should be repeated or changed>`
-- Evidence quality limits: `<what the checks do not prove>`
-
 ## 4) Rollback / Re-entry Record
 
 - Rollback triggered: `<yes|no>`
@@ -139,10 +117,3 @@
   - `<rationale-2>`
 - Next suggested action:
   - `<next-step>`
-
-## 5.1) Next-State Handoff
-
-- Next start layer: `<Layer N>`
-- Preserved artifacts and evidence: `<paths, receipts, commands>`
-- Open risks or unfinished work: `<none or bounded list>`
-- Restart instruction: `<first action for the next run>`

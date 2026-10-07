@@ -1,0 +1,59 @@
+﻿{
+    "expectations":  [
+                         {
+                             "text":  "响应中明确将该请求判定为 `maintenance`",
+                             "passed":  true,
+                             "evidence":  "The answer explicitly states `Mode: maintenance`."
+                         },
+                         {
+                             "text":  "响应中明确指出桥接/拓扑变化使最小重入层变为 Layer 2，而不是只做 Layer 5",
+                             "passed":  true,
+                             "evidence":  "It concludes `最小重入层: Layer 2` and explains that the async queue change is a topology/data-flow change, not just Layer 5 governance."
+                         },
+                         {
+                             "text":  "响应中说明 Layer 5 治理或 Product Contract 更新仍然要做，但它们是 Layer 2 之后的下游同步",
+                             "passed":  true,
+                             "evidence":  "The recommended execution path moves from Layer 2 to Layer 3/4 if needed and then Layer 5 for the governance items."
+                         },
+                         {
+                             "text":  "响应中提及桥接应重新做阶段验证、拓扑/Schema 或等价的 Layer 2 工作",
+                             "passed":  true,
+                             "evidence":  "It explicitly mentions topology redefinition, edge schema conversion, and stage-by-stage verification for the bridge pipeline."
+                         },
+                         {
+                             "text":  "响应中不要求把该请求升级成完整 `bootstrap` 或完整 0-\u003e6 重跑",
+                             "passed":  true,
+                             "evidence":  "It keeps the scenario in maintenance and does not call for a full bootstrap or full 0→6 rerun."
+                         }
+                     ],
+    "summary":  {
+                    "passed":  5,
+                    "failed":  0,
+                    "total":  5,
+                    "pass_rate":  1
+                },
+    "timing":  {
+                   "executor_duration_seconds":  62.7,
+                   "total_duration_seconds":  62.7
+               },
+    "claims":  [
+
+               ],
+    "user_notes_summary":  {
+                               "uncertainties":  [
+
+                                                 ],
+                               "needs_review":  [
+
+                                                ],
+                               "workarounds":  [
+
+                                               ]
+                           },
+    "eval_feedback":  {
+                          "suggestions":  [
+
+                                          ],
+                          "overall":  "All expectations passed. The baseline answer remains correct, but it is much longer and more general than the with-skill version."
+                      }
+}

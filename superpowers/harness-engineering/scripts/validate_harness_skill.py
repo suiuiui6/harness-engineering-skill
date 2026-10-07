@@ -15,9 +15,7 @@ from contract_consistency import validate_contract_consistency
 REQUIRED_SKILL_ROUTES = [
     "references/runtime-stages.md",
     "references/delivery-arc.md",
-    "references/decision-quality.md",
     "references/output-contract.md",
-    "references/learn-harness-engineering-mapping.md",
     "adapters/codex/host-map.md",
     "adapters/claude-code/host-map.md",
     "adapters/codex/assembly.md",
@@ -32,7 +30,6 @@ REQUIRED_SKILL_ROUTES = [
 ]
 
 LINKED_RESOURCE_PATTERN = re.compile(r"`([^`]+\.(?:md|py|json))`")
-EXPECTED_BEHAVIOR_EVAL_IDS = set(range(1, 12)) | set(range(101, 112))
 
 
 def read_text(path: Path, errors: list[str]) -> str:
@@ -96,24 +93,6 @@ def validate_generated_artifacts(root: Path, errors: list[str]) -> None:
             errors.append(f"generated cache artifact must not ship: {path.relative_to(root)}")
 
 
-def validate_behavior_catalog(definitions: list[dict], errors: list[str]) -> None:
-    """Require the public host catalogs to expose the canonical 22 eval IDs."""
-    if len(definitions) != len(EXPECTED_BEHAVIOR_EVAL_IDS):
-        errors.append(
-            "behavior eval catalog must contain exactly 22 definitions "
-            f"(found {len(definitions)})"
-        )
-
-    actual_ids = [item.get("id") for item in definitions]
-    actual_id_set = set(actual_ids)
-    missing = sorted(EXPECTED_BEHAVIOR_EVAL_IDS - actual_id_set)
-    unexpected = sorted(actual_id_set - EXPECTED_BEHAVIOR_EVAL_IDS)
-    if missing:
-        errors.append("missing behavior eval ids: " + ", ".join(map(str, missing)))
-    if unexpected:
-        errors.append("unexpected behavior eval ids: " + ", ".join(map(str, unexpected)))
-
-
 def validate_bundle(root: Path) -> list[str]:
     root = root.resolve()
     errors: list[str] = []
@@ -138,11 +117,7 @@ def validate_bundle(root: Path) -> list[str]:
     )
     require_tokens(
         root / "references" / "runtime-stages.md",
-        [
-            "## Trigger", "## Load", "## Inject", "## Orchestrate", "## Return",
-            "goal_statement", "execution_plan", "environment_facts",
-            "retrospective", "next_start_state",
-        ],
+        ["## Trigger", "## Load", "## Inject", "## Orchestrate", "## Return"],
         errors,
     )
     require_tokens(
@@ -158,31 +133,6 @@ def validate_bundle(root: Path) -> list[str]:
         errors,
     )
     require_tokens(
-        root / "references" / "decision-quality.md",
-        [
-            "## First-principles trigger",
-            "## Adversarial trigger and minimum review",
-            "Constraints:",
-            "Assumptions:",
-            "Falsifier:",
-            "Decision:",
-            "Decision quality:",
-            "pass | stay | rollback | blocked",
-            "original non-GSD path",
-        ],
-        errors,
-    )
-    require_tokens(
-        root / "core" / "checklists.md",
-        ["Conditional Decision-Quality Checklist", "Missing high-severity probes"],
-        errors,
-    )
-    require_tokens(
-        root / "CHECKS.md",
-        ["Conditional Decision-Quality Gate", "cannot be silently passed"],
-        errors,
-    )
-    require_tokens(
         root / "references" / "output-contract.md",
         [
             "## Classification Reply",
@@ -193,22 +143,6 @@ def validate_bundle(root: Path) -> list[str]:
             "bootstrap_exited",
             "maintenance_continues",
             "in_progress",
-            "Decision-Quality Evidence",
-            "Falsifiers / probes:",
-            "Windows results remain audit-only evidence",
-            "Retrospective",
-            "Next start state",
-        ],
-        errors,
-    )
-    require_tokens(
-        root / "REQUIRED-EXECUTION-RECORD.template.md",
-        [
-            "## 0.1) Goal and Execution Plan",
-            "## 0.6) Execution Environment",
-            "## 3.5) Retrospective",
-            "## 5.1) Next-State Handoff",
-            "Next start layer",
         ],
         errors,
     )
@@ -285,9 +219,8 @@ def validate_bundle(root: Path) -> list[str]:
     )
     validate_generated_artifacts(root, errors)
     errors.extend(validate_contract_consistency(root))
-    definitions, eval_errors = load_eval_definitions(root)
+    _, eval_errors = load_eval_definitions(root)
     errors.extend(eval_errors)
-    validate_behavior_catalog(definitions, errors)
     return errors
 
 

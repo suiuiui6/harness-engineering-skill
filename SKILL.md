@@ -15,6 +15,10 @@ harness-engineering是一套**文档驱动的项目搭建方法论**。核心理
 
 ## 什么时候使用
 
+### Web 全栈交付 profile
+
+当交付对象是 Web full-stack（前端、后端、数据、部署）时，按 `references/web-fullstack-delivery.md` 的 delivery contract 执行，并使用 `references/load-policy.json` 选择加载范围。局部 API 变更仍按维护期处理，不升级为完整 bootstrap。
+
 **触发信号**（满足任意一条即适用）：
 - 项目涉及 **2 个以上**外部 API / 服务 / 组件的集成（如：文档解析 + LLM + 向量库）
 - 已有若干独立组件，需要整合为完整系统，但组件间接口尚未打通

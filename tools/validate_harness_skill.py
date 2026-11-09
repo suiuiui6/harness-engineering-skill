@@ -14,10 +14,8 @@ import re
 import sys
 from pathlib import Path
 
-REQUIRED_CORE_FILES = (
+REQUIRED_SKILL_FILES = (
     "SKILL.md",
-    "README.md",
-    "README.zh-CN.md",
     "core/flow.md",
     "core/layer-details.md",
     "core/checklists.md",
@@ -32,6 +30,11 @@ REQUIRED_CORE_FILES = (
     "references/agent-templates/chatbot-coder.md",
     "references/agent-templates/chatbot-debugger.md",
     "references/agent-templates/chatbot-reviewer.md",
+)
+
+REQUIRED_REPOSITORY_FILES = (
+    "README.md",
+    "README.zh-CN.md",
 )
 
 REQUIRED_COMPANION_FILES = (
@@ -63,10 +66,10 @@ def parse_frontmatter(text: str) -> dict[str, str] | None:
     return None
 
 
-def validate_required(root: Path, include_companions: bool = True) -> list[str]:
-    required = REQUIRED_CORE_FILES
-    if include_companions:
-        required = (*required, *REQUIRED_COMPANION_FILES)
+def validate_required(root: Path, installed: bool = False) -> list[str]:
+    required = REQUIRED_SKILL_FILES
+    if not installed:
+        required = (*required, *REQUIRED_REPOSITORY_FILES, *REQUIRED_COMPANION_FILES)
     return [f"missing required file: {relative}" for relative in required if not (root / relative).is_file()]
 
 
@@ -129,9 +132,9 @@ def validate_no_legacy_paths(root: Path) -> list[str]:
     return errors
 
 
-def validate(root: Path, include_companions: bool = True) -> list[str]:
+def validate(root: Path, installed: bool = False) -> list[str]:
     return [
-        *validate_required(root, include_companions),
+        *validate_required(root, installed),
         *validate_entry(root),
         *validate_links(root),
         *validate_no_legacy_paths(root),
@@ -142,16 +145,16 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Validate the Harness Engineering tree")
     parser.add_argument("root", nargs="?", default=".")
     parser.add_argument(
-        "--skip-companions",
+        "--installed",
         action="store_true",
-        help="validate an installed skill copy without goal/ and deployment/",
+        help="validate an installed skill copy without READMEs, goal/ or deployment/",
     )
     args = parser.parse_args(argv)
     root = Path(args.root).resolve()
     if not root.is_dir():
         print(f"not a directory: {root}", file=sys.stderr)
         return 2
-    errors = validate(root, include_companions=not args.skip_companions)
+    errors = validate(root, installed=args.installed)
     if errors:
         for error in errors:
             print(f"FAIL: {error}")

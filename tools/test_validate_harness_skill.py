@@ -106,10 +106,12 @@ def test_frontmatter_name_is_enforced(tmp_path):
     assert "frontmatter name" in result.stdout
 
 
-def test_skip_companions_allows_an_installed_skill_copy(tmp_path):
+def test_installed_mode_allows_a_skill_copy_without_repo_docs(tmp_path):
     build_minimal(tmp_path)
     shutil.rmtree(tmp_path / "goal")
     (tmp_path / "deployment" / "AGENTS.md").unlink()
     (tmp_path / "deployment").rmdir()
-    result = run_with_flag(tmp_path, "--skip-companions")
+    (tmp_path / "README.md").unlink()
+    (tmp_path / "README.zh-CN.md").unlink()
+    result = run_with_flag(tmp_path, "--installed")
     assert result.returncode == 0, result.stdout + result.stderr

@@ -14,3 +14,6 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -B tools/check_integrations.py
+      - run: python -B tools/validate_harness_skill.py .
+      - run: python -B -m pip install pytest
+      - run: python -B -m pytest --rootdir . -p no:cacheprovider tools -q

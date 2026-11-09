@@ -12,7 +12,7 @@
 
 其中：
 
-- `superpowers/harness-engineering/*` 是平台无关的规范源。
+- `SKILL.md` 与 `core/*` 是平台无关的规范源。
 - `adapters/claude-code/*` 只描述 Claude Code 宿主如何接入这些规范。
 
 ## 推荐目录映射
@@ -79,8 +79,8 @@ When the user explicitly requests the workflow, invoke `/harness-engineering`.
 
 技能入口应：
 
-- 引用 `superpowers/harness-engineering/SPEC.md`
-- 引用 `superpowers/harness-engineering/PHASES.md`
+- 引用 `SKILL.md`
+- 引用 `core/layer-details.md`
 - 引用 `core/flow.md`
 - 引用 `core/layer-details.md`
 - 引用 `core/checklists.md`
@@ -132,8 +132,8 @@ Use this skill when the task requires structured execution rather than direct ad
 
 ## Canonical references
 
-- `superpowers/harness-engineering/SPEC.md`
-- `superpowers/harness-engineering/PHASES.md`
+- `SKILL.md`
+- `core/layer-details.md`
 - `core/flow.md`
 - `core/checklists.md`
 - `core/exit-and-reentry.md`
@@ -158,7 +158,7 @@ Use this skill when the task requires structured execution rather than direct ad
 - operation state 的 canonical 语义本体
 - 产品契约或具体项目业务规则
 
-这些内容统一留在 `superpowers/*` 与 `core/*`。
+这些内容统一留在 `SKILL.md` 与 `core/*`。
 
 ## 7. 最小可运行装配顺序
 

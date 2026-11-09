@@ -1,189 +1,93 @@
-# Harness Engineering — AI 辅助软件工程方法论
+# Harness Engineering
 
-一套 7 层渐进式工程框架，帮助 AI 辅助开发从能力边界摸底到生产就绪的全流程质量管理。
+[![Integration](https://github.com/suiuiui6/harness-engineering-skill/actions/workflows/integration.yml/badge.svg)](https://github.com/suiuiui6/harness-engineering-skill/actions/workflows/integration.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 什么是 Harness Engineering？
+**Your coding agent says the project is done. Harness Engineering makes it prove it, layer by layer.**
 
-Harness Engineering（harness-engineering）是一套专为 AI 辅助软件开发设计的方法论，通过 7 个递进 Layer 管理项目复杂度，确保从零到生产的每个阶段都有明确的质量标准。
+Harness Engineering is a seven-layer delivery method for AI-assisted software work. Every layer produces artefacts and gate evidence; the next layer starts only after the previous one passes. When a downstream failure invalidates an upstream assumption, work returns to the smallest broken layer instead of restarting the project.
 
-### 核心理念
+It is not a test framework and not a prompt pack. It is the ordering and evidence discipline that sits above both.
 
-- **渐进式验证**：每层完成后才进入下一层，避免在错误假设上堆砌代码
-- **规范文档驱动**：规范文档是唯一真相源，代码与规范不一致时必须修一边
-- **四 Agent 协作**：planner（设计）→ coder（实现）→ debugger（排障）→ reviewer（审查）
-- **维护期自适应**：搭建期完成后自动切换到维护期工作模式
+![Layer flow](docs/assets/architecture.svg)
 
-## 7 层框架
+## Why it exists
 
-| Layer | 名称 | 产出 | 何时使用 |
-|-------|------|------|---------|
-| **Layer 0** | 能力边界摸底 | `CAPABILITY-BOUNDARY.md` | 引入新核心组件 |
-| **Layer 1** | 组件规范 | 输入输出 schema / 失败模式 | 集成外部 API/服务 |
-| **Layer 2** | 集成拓扑 | 组件间数据流与依赖关系 | 调整系统架构 |
-| **Layer 3** | 技术架构 | 核心算法与设计决策 | 选型关键技术栈 |
-| **Layer 4** | 三份蓝图 | PRD / Backend API / Frontend Design | 新增主功能模块 |
-| **Layer 5** | 7 条铁律 + 四 Agent | 项目宪章 `CLAUDE.md` + Product Contract（版本声明/边界定义/变更记录/验收标准） | 项目启动时 |
-| **Layer 6** | 生产就绪检查 | 测试/文档/安全/性能/可观测性/运行时隔离 | 上线前 |
+AI coding agents are optimistic. A command exits `0`, a mock replaces the real API, a dependency is incompatible, an old test result gets reused, and the final report still says "complete".
 
-## 快速开始
+Harness Engineering turns each of those into a checkable state:
 
-### 安装
+- **Layer 0** — what each component can and cannot do, verified against source or API, not documentation.
+- **Layer 1** — every component runs once on real input before it is integrated.
+- **Layer 2** — each bridge stage has an input/output contract and a replayable run.
+- **Layer 3** — architecture decisions are traceable to validated components.
+- **Layer 4** — three blueprints that do not contradict each other.
+- **Layer 5** — engineering rules and a product contract with testable acceptance criteria.
+- **Layer 6** — tests, security, observability and production-readiness checks.
+
+## Quick start
+
+Claude Code:
 
 ```bash
-# 克隆到 Claude Code 的 skills 目录
 git clone https://github.com/suiuiui6/harness-engineering-skill.git \
   ~/.claude/skills/harness-engineering
 ```
 
-### 使用
+Then ask for the structured flow explicitly, or use `/harness-engineering` if you have wired the slash command from `adapters/claude-code/assembly.md`.
 
-在 Claude Code 中：
+Codex:
 
-```bash
-# 启动新项目
-/harness-engineering start
-
-# 引入新组件（从 Layer 0 开始）
-/harness-engineering layer0
-
-# 生成三份蓝图（Layer 4）
-/harness-engineering layer4
-
-# 五子系统自检
-/harness-engineering audit
-
-# 进入维护期
-/harness-engineering maintain
+```powershell
+git clone https://github.com/suiuiui6/harness-engineering-skill.git `
+  "$env:USERPROFILE\.codex\skills\harness-engineering"
 ```
 
-## 四 Agent 协作模式
+`SKILL.md` is the entry point. `core/` holds the protocol, `adapters/` holds host mapping, `references/` holds methodology and the four agent templates.
 
-本方法论配套 4 个专用 Agent（模板位于 `references/agent-templates/`）：
+OpenCode notes live in `adapters/opencode/`. They are a compatibility entry, not a verified end-to-end integration — check them against your host before relying on them.
 
-```bash
-# 1. 设计阶段
-@chatbot-planner 设计一个文档批量上传功能
+## How a session runs
 
-# 2. 实现阶段
-@chatbot-coder 根据 planner 的设计实现后端 API
+1. Classify the request as `bootstrap` or `maintenance`.
+2. Choose the smallest layer where evidence is actually missing.
+3. Read only the core files needed for that scope.
+4. Do not cross a gate without pass evidence.
+5. On failure, roll back to the smallest invalid upstream layer.
+6. Close with touched layers, evidence pointers, and operation state.
 
-# 3. 故障排查
-@chatbot-debugger 上传接口返回 500，帮我定位根因
+Maintenance is not a restart. A local bug fix stays at Layer 6. A topology change re-enters Layer 2. A new core component re-enters Layer 0.
 
-# 4. 代码审查
-@chatbot-reviewer 审查 backend/routes/upload.py 的安全性
-```
+## Evaluation
 
-**协作流程**：planner 设计 → coder 实现 → debugger 排障 → reviewer 复审
+The repository ships its evaluation data, including results that do not flatter the method. Read [docs/BENCHMARK.md](docs/BENCHMARK.md) before quoting any number.
 
-## 示例项目
+Short version: single-run results across three iterations do not show a stable pass-rate advantage for the skill. They do show large token and wall-clock savings when the method is packaged as a compact brief. The evaluation harness is published so the claim can be checked and contested, not so a percentage can be put on a badge.
 
-完整的实践案例：`graghRAG-agent`（本地项目，相关评测数据已收录在本仓库 `evals/skill-evaluation/`）
+## Repository map
 
-- ✅ 多模态知识图谱 RAG 系统
-- ✅ 完整的 Layer 0-6 规范文档
-- ✅ 四 Agent 协作配置
-- ✅ 评测数据（使用 skill 前后对比）
+| Path | Contents |
+| --- | --- |
+| `SKILL.md` | Canonical entry point and execution rules |
+| `core/` | Layer flow, layer details, checklists, exit and re-entry |
+| `adapters/` | Claude Code, Codex and OpenCode mapping |
+| `references/` | Methodology, agent templates, permissions matrix |
+| `evals/` | Benchmark data and runner notes, iterations 1–3 |
+| `goal/` | Goal intake companion, formerly the standalone `goal-skill` repository |
+| `docs/` | Architecture asset, benchmark write-up, archive |
 
-### 评测效果
+## When to use it
 
-| 场景 | 使用 skill | 不使用 skill |
-|------|-----------|--------------|
-| 新项目搭建 | ✅ 100% | ⚠️ 60% |
-| 现有组件集成 | ✅ 93%* | ⚠️ 73% |
-| Agent 配置 | ✅ 80% | ✅ 80% |
+Use it when the work has two or more external components, an uncertain tech stack, an integration that has not been proven, or a team that needs the same definition of "done".
 
-*排除评测设计问题后的实际通过率
+Skip it for a single-file fix, a feature with a settled design, a single-service project, or an already stable maintenance task.
 
-详细评测数据见本仓库 `evals/skill-evaluation/`。
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
 
-评测与可实践性为方法论硬约束：Layer 5 的 Product Contract 需包含可验证验收标准，Layer 6 上线前检查需提供测试/评测证据链接。
+## Case study
 
-## 目录结构
+[graghRAG-agent](https://github.com/suiuiui6/graghRAG-agent) is a multimodal GraphRAG application built with this method. Its Layer 0–6 documents are the practical reference for what the outputs look like.
 
-```
-harness-engineering/
-├── SKILL.md                    # Skill 主文件（Claude Code 加载）
-├── README.md                   # 本文件
-├── references/
-│   ├── methodology.md          # 完整方法论文档
-│   └── agent-templates/        # 四 Agent 配置模板
-│       ├── chatbot-planner.md
-│       ├── chatbot-coder.md
-│       ├── chatbot-reviewer.md
-│       └── chatbot-debugger.md
-└── evals/                      # 评测脚本与结果（必备）
-```
+## License
 
-## 何时使用
-
-### ✅ 适用场景
-
-- 从零启动新项目
-- 集成 2 个以上外部 API/服务
-- 搭建 RAG / Agentic 系统
-- 需要规范文档驱动开发
-- 多组件项目需要整合
-
-### ❌ 不适用场景
-
-- 单文件 Bug 修复
-- 已有明确技术方案的简单功能
-- 单组件项目（仅 1 个外部服务）
-- 已进入维护期的成熟项目
-- 纯研究调研任务
-
-## 维护期工作模式
-
-项目完成搭建期后，自动进入维护期。维护期遵循：
-
-| 变更类型 | 重新进入 Layer | 示例 |
-|---------|---------------|------|
-| 引入新核心组件 | Layer 0 | 新增向量数据库 |
-| 调整集成拓扑 | Layer 2 | 改变组件调用顺序 |
-| 新增主功能模块 | Layer 4 | 新增用户权限系统 |
-| 单 Bug 修复 | **不回退** | 修复参数校验 |
-
-## 核心原则
-
-### 1. 规范文档是唯一真相源
-
-代码与规范不一致 → 必须修一边，不留下不一致状态。
-
-### 2. 渐进式验证
-
-每层完成后才进入下一层，避免在错误假设上堆砌代码。
-
-### 3. MVP 先于正式开发
-
-Layer 1 必须对每个外部组件做 MVP 测试，验证可行性后再集成。
-
-### 4. 修复报告必须回流
-
-任何 troubleshooting 笔记必须先回流到对应 Layer 规范文档，再归档。
-
-### 5. Entropy 月度巡检
-
-每月最后一个工作日，由 reviewer 巡检规范文档与代码的漂移。
-
-## 贡献
-
-欢迎提交 Issue 和 PR：
-
-- 改进方法论文档
-- 补充 Agent 模板
-- 分享实践案例
-- 报告 Bug
-
-## 许可证
-
-MIT License
-
-## 相关资源
-
-- [harness-engineering-skill 仓库](https://github.com/suiuiui6/harness-engineering-skill) — 本 skill 的源码与评测数据
-- [示例项目：graghRAG-agent](https://github.com/suiuiui6/graghRAG-agent) — 基于本方法论构建的多模态 RAG 系统
-
-## 联系方式
-
-- GitHub Issues: https://github.com/suiuiui6/harness-engineering-skill/issues
+MIT.

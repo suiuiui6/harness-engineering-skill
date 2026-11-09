@@ -12,7 +12,7 @@
 
 ## 读取范围
 
-- 先读 canonical 入口 `superpowers/harness-engineering/SKILL.md`，再按当前 scope 补读 `SPEC.md`、`PHASES.md`、`core/*` 与本适配层文件。
+- 先读 canonical 入口 `SKILL.md`，再按当前 scope 补读 `core/*` 与本适配层文件。
 - 维护期只读本次起始层及其必要上游/下游材料，不把全套文档当默认前置。
 - 宿主层补充的是 Claude Code 的执行映射，不改写 7-layer 定义、Gate 本体与回滚方法论。
 

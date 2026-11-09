@@ -2,18 +2,11 @@
   "version": 1,
   "canonical_repository": "https://github.com/suiuiui6/harness-engineering-skill",
   "contract": "seven-layer-harness",
-  "companions": [
-    {
-      "name": "goal",
-      "repository": "https://github.com/suiuiui6/goal-skill",
-      "ref": "main",
-      "tested_commit": "6e8cbac178562b8cfa5d62f8df6b3d54f0c67354"
-    }
-  ],
+  "companions": [],
   "integration_consumers": [
     {
-      "name": "goal-harness-web-fullstack",
-      "repository": "https://github.com/suiuiui6/goal-harness-web-fullstack",
+      "name": "goal-harness",
+      "repository": "https://github.com/suiuiui6/goal-harness",
       "ref": "main",
       "manifest_path": "tools/source-integrations.json"
     }

@@ -16,8 +16,8 @@ Before implementation work:
 
 Read these as needed for the selected scope:
 
-- `superpowers/harness-engineering/SPEC.md`
-- `superpowers/harness-engineering/PHASES.md`
+- `SKILL.md`
+- `core/layer-details.md`
 - `core/flow.md`
 - `core/checklists.md`
 - `core/exit-and-reentry.md`

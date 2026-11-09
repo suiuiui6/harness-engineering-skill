@@ -53,6 +53,7 @@ Define the minimum protocol for a `superpower` capability spec so it can be unde
 
 This model defines the protocol. Concrete capability content for Harness Engineering is canonical at:
 
-- `superpowers/harness-engineering/SPEC.md`
-- `superpowers/harness-engineering/PHASES.md`
-- `superpowers/harness-engineering/CHECKS.md`
+- `SKILL.md`
+- `core/flow.md`
+- `core/layer-details.md`
+- `core/checklists.md`
